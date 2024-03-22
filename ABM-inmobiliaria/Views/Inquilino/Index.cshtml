@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Inquilino>
+@{
+    ViewData["Title"] = "Inquilino";
+}
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["Mensaje"]
+    </div>
+}
+
+
+<div class="container mt-5">
+    <h1 class="mb-4">ABM de Inquilino</h1>
+    <a asp-controller="Inquilino" asp-action="Insertar" class="btn btn-success mb-3">Agregar Inquilino</a>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                @* <th>Id</th> *@
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Inquilino in Model)
+            {
+                <tr>
+                    <td style="display: none;">@Inquilino.IdInquilino</td>
+                    <td>@Inquilino.Nombre</td>
+                    <td>@Inquilino.Apellido</td>
+                    <td>@Inquilino.Telefono</td>
+                    <td>@Inquilino.Email</td>
+                    <td>
+                        <a asp-controller="Inquilino" asp-action="Actualizar" asp-route-id="@Inquilino.IdInquilino"
+                            class="btn btn-primary btn-sm">Modificar</a>
+
+                        <a asp-controller="Inquilino" asp-action="Eliminar" asp-route-id="@Inquilino.IdInquilino"
+                            class="btn btn-danger btn-sm"
+                            onclick="return confirm('¿Estás seguro de que deseas eliminar esta persona?')">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
