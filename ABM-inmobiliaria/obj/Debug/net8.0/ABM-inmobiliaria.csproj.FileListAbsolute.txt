@@ -108,3 +108,4 @@ C:\Users\Luciano\Desktop\NET\Proyecto inmobiliaria\ABM-inmobiliaria\obj\Debug\ne
 C:\Users\Luciano\Desktop\NET\Proyecto inmobiliaria\ABM-inmobiliaria\obj\Debug\net8.0\ABM-inmobiliaria.pdb
 C:\Users\Luciano\Desktop\NET\Proyecto inmobiliaria\ABM-inmobiliaria\obj\Debug\net8.0\ABM-inmobiliaria.genruntimeconfig.cache
 C:\Users\Luciano\Desktop\NET\Proyecto inmobiliaria\ABM-inmobiliaria\obj\Debug\net8.0\ref\ABM-inmobiliaria.dll
+C:\Users\Luciano\Desktop\NET\Proyecto inmobiliaria\ABM-inmobiliaria\obj\Debug\net8.0\ABM-inmobiliaria.sourcelink.json

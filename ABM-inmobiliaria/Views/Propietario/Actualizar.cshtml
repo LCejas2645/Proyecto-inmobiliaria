@@ -12,7 +12,7 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <form asp-action="Actualizar" method="post">
-                <form asp-controller="Propietario" asp-action="Insertar" method="post"></form>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="IdPropietario" />
                 <div class="form-group">
                     <label asp-for="Nombre" class="control-label"></label>
