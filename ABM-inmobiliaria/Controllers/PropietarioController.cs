@@ -25,10 +25,22 @@ namespace ABM_inmobiliaria.Controllers
             return View(listaPropietarios);
         }
 
-        public IActionResult Insertar()
+        public IActionResult Insertar(int? id)
         {
-
-            return View();
+            if (id != null)
+            {
+                // Si tiene un id, es una solicitud para actualizar
+                RepositorioPropietario rp = new RepositorioPropietario();
+                var propietario = rp.GetPropietario(id.Value);
+                if (propietario == null)
+                {
+                    return NotFound();
+                }
+                return View(propietario);
+            }
+            // Si no trae id, es una solicitud para insertar
+            var nuevoPropietario = new Propietario();
+            return View(nuevoPropietario);
         }
 
         [HttpPost]
@@ -37,36 +49,20 @@ namespace ABM_inmobiliaria.Controllers
             if (ModelState.IsValid)
             {
                 RepositorioPropietario rp = new RepositorioPropietario();
-                rp.InsertarPropietario(propietario);
-                TempData["Mensaje"] = $"Se ha insertado correctamente a {propietario.Nombre} {propietario.Apellido}";
+                if (propietario.IdPropietario > 0)
+                {
+                    // Si el Id es mayor que cero, es una solicitud de actualización.
+                    rp.ActualizarPropietario(propietario);
+                    TempData["Mensaje"] = $"Se han actualizado los datos de {propietario.Nombre} {propietario.Apellido}";
+                }
+                else
+                {
+                    // Si el Id es cero o menos, es una solicitud de inserción.
+                    rp.InsertarPropietario(propietario);
+                    TempData["Mensaje"] = $"Se ha insertado correctamente a {propietario.Nombre} {propietario.Apellido}";
+                }
                 return RedirectToAction("Index");
             }
-            return View(propietario);
-        }
-
-        public IActionResult Actualizar(int id)
-        {
-            RepositorioPropietario rp = new RepositorioPropietario();
-            var propietario = rp.GetPropietario(id);
-            if (propietario == null)
-            {
-                return NotFound();
-            }
-            return View(propietario);
-        }
-
-        [HttpPost]
-        public IActionResult Actualizar(Propietario propietario)
-        {
-
-            if (ModelState.IsValid)
-            {
-                RepositorioPropietario rp = new RepositorioPropietario();
-                rp.ActualizarPropietario(propietario);
-                TempData["Mensaje"] = $"Se han actualizado los datos de {propietario.Nombre} {propietario.Apellido}";
-                return RedirectToAction("Index");
-            }
-
             return View(propietario);
         }
 

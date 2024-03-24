@@ -25,10 +25,22 @@ namespace ABM_inmobiliaria.Controllers
             return View(listaInquilino);
         }
 
-        public IActionResult Insertar()
+        public IActionResult Insertar(int? id)
         {
-
-            return View();
+            if (id != null)
+            {
+                // Si tiene un id, es una solicitud para actualizar
+                RepositorioInquilino rp = new RepositorioInquilino();
+                var inquilino = rp.GetInquilino(id.Value);
+                if (inquilino == null)
+                {
+                    return NotFound();
+                }
+                return View(inquilino);
+            }
+            // Si no trae id, es una solicitud para insertar
+            var nuevoInquilino = new Inquilino();
+            return View(nuevoInquilino);
         }
 
         [HttpPost]
@@ -37,38 +49,23 @@ namespace ABM_inmobiliaria.Controllers
             if (ModelState.IsValid)
             {
                 RepositorioInquilino rp = new RepositorioInquilino();
-                rp.InsertarInquilino(inquilino);
-                TempData["Mensaje"] = $"Se ha insertado correctamente a {inquilino.Nombre} {inquilino.Apellido}";
+                if (inquilino.IdInquilino > 0)
+                {
+                    // Si el Id es mayor que cero, es una solicitud de actualización.
+                    rp.ActualizarInquilino(inquilino);
+                    TempData["Mensaje"] = $"Se han actualizado los datos de {inquilino.Nombre} {inquilino.Apellido}";
+                }
+                else
+                {
+                    // Si el Id es cero o menos, es una solicitud de inserción.
+                    rp.InsertarInquilino(inquilino);
+                    TempData["Mensaje"] = $"Se ha insertado correctamente a {inquilino.Nombre} {inquilino.Apellido}";
+                }
                 return RedirectToAction("Index");
             }
             return View(inquilino);
         }
 
-        public IActionResult Actualizar(int id)
-        {
-            RepositorioInquilino rp = new RepositorioInquilino();
-            var inquilino = rp.GetInquilino(id);
-            if (inquilino == null)
-            {
-                return NotFound();
-            }
-            return View(inquilino);
-        }
-
-        [HttpPost]
-        public IActionResult Actualizar(Inquilino inquilino)
-        {
-
-            if (ModelState.IsValid)
-            {
-                RepositorioInquilino rp = new RepositorioInquilino();
-                rp.ActualizarInquilino(inquilino);
-                TempData["Mensaje"] = $"Se han actualizado los datos de {inquilino.Nombre} {inquilino.Apellido}";
-                return RedirectToAction("Index");
-            }
-
-            return View(inquilino);
-        }
 
         public IActionResult Eliminar(int id)
         {

@@ -9,67 +9,59 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ABM_inmobiliaria
 build_property.RootNamespace = ABM_inmobiliaria
-build_property.ProjectDir = C:\Users\Luciano\Desktop\NET\Proyecto inmobiliaria\ABM-inmobiliaria\
+build_property.ProjectDir = C:\Users\Tamara\Documents\GitHub\Proyecto-inmobiliaria\ABM-inmobiliaria\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Luciano\Desktop\NET\Proyecto inmobiliaria\ABM-inmobiliaria
+build_property.MSBuildProjectDirectory = C:\Users\Tamara\Documents\GitHub\Proyecto-inmobiliaria\ABM-inmobiliaria
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Home/Index.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Inquilino/Actualizar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5xdWlsaW5vXEFjdHVhbGl6YXIuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Inquilino/Eliminar.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Inquilino/Eliminar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5xdWlsaW5vXEVsaW1pbmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Inquilino/Index.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Inquilino/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5xdWlsaW5vXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Inquilino/Insertar.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Inquilino/Insertar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5xdWlsaW5vXEluc2VydGFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Propietario/Actualizar.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvcGlldGFyaW9cQWN0dWFsaXphci5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Propietario/Eliminar.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Propietario/Eliminar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvcGlldGFyaW9cRWxpbWluYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Propietario/Index.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Propietario/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvcGlldGFyaW9cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Propietario/Insertar.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Propietario/Insertar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvcGlldGFyaW9cSW5zZXJ0YXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Shared/Error.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/_ViewImports.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/_ViewStart.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Luciano/Desktop/NET/Proyecto inmobiliaria/ABM-inmobiliaria/Views/Shared/_Layout.cshtml]
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-whe3gfbmep

@@ -1,16 +1,20 @@
 ﻿@model Inquilino
 @{
-    ViewData["Title"] = "Agregar Inquilino";
+    ViewData["Title"] = Model.IdInquilino > 0 ? "Modificar inquilino" : "Agregar inquilino";
 }
-
-
-Agregando Inquilino
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <form asp-controller="Inquilino" asp-action="Insertar" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <h3 class="text-center">@ViewData["Title"]</h3>
+                @if (Model.IdInquilino > 0)
+                {
+                    <input type="hidden" asp-for="IdInquilino" />
+                }
+                
                 <div class="form-group">
                     <label asp-for="Nombre" class="control-label"></label>
                     <input asp-for="Nombre" class="form-control" />
@@ -32,6 +36,7 @@ Agregando Inquilino
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+                <a asp-controller="Propietario" asp-action="Index" class="btn btn-danger mt-3 ml-2">cancelar</a>
             </form>
         </div>
     </div>
