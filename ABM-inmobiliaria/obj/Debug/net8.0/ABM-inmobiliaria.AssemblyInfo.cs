@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ABM-inmobiliaria")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4bd4e30b3e18bce6b7cc5751b48e5a29da6d673d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d1636d55bf59bdf99388d9ec9cadaefc6c891c14")]
 [assembly: System.Reflection.AssemblyProductAttribute("ABM-inmobiliaria")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ABM-inmobiliaria")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

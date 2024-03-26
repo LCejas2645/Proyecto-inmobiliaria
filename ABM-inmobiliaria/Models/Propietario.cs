@@ -8,7 +8,7 @@ namespace ABM_inmobiliaria.Models
 {
     public class Propietario
     {
-        public int IdPropietario { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "El campo Nombre es obligatorio")]
         public string? Nombre { get; set; }

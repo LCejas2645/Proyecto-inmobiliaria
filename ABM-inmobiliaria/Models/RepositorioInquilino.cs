@@ -23,7 +23,7 @@ namespace ABM_inmobiliaria.Models
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = @$"SELECT {nameof(Inquilino.IdInquilino)}, {nameof(Inquilino.Nombre)}, {nameof(Inquilino.Apellido)}, {nameof(Inquilino.Telefono)}, {nameof(Inquilino.Email)} FROM Inquilino";
+                var sql = @$"SELECT {nameof(Inquilino.Id)}, {nameof(Inquilino.Nombre)}, {nameof(Inquilino.Apellido)}, {nameof(Inquilino.Telefono)}, {nameof(Inquilino.Email)} FROM Inquilino";
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -33,7 +33,7 @@ namespace ABM_inmobiliaria.Models
                         {
                             inquilinos.Add(new Inquilino
                             {
-                                IdInquilino = reader.GetInt32(nameof(Inquilino.IdInquilino)),
+                                Id = reader.GetInt32(nameof(Inquilino.Id)),
                                 Nombre = reader.GetString(nameof(Inquilino.Nombre)),
                                 Apellido = reader.GetString(nameof(Inquilino.Apellido)),
                                 Telefono = reader.GetString(nameof(Inquilino.Telefono)),
@@ -54,7 +54,7 @@ namespace ABM_inmobiliaria.Models
         {
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = $"SELECT {nameof(Inquilino.IdInquilino)}, {nameof(Inquilino.Nombre)}, {nameof(Inquilino.Apellido)}, {nameof(Propietario.Telefono)}, {nameof(Propietario.Email)} FROM Inquilino WHERE {nameof(Inquilino.IdInquilino)} = @Id";
+                var sql = $"SELECT {nameof(Inquilino.Id)}, {nameof(Inquilino.Nombre)}, {nameof(Inquilino.Apellido)}, {nameof(Propietario.Telefono)}, {nameof(Propietario.Email)} FROM Inquilino WHERE {nameof(Inquilino.Id)} = @Id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -66,7 +66,7 @@ namespace ABM_inmobiliaria.Models
                         {
                             return new Inquilino
                             {
-                                IdInquilino = reader.GetInt32(nameof(Inquilino.IdInquilino)),
+                                Id = reader.GetInt32(nameof(Inquilino.Id)),
                                 Nombre = reader.GetString(nameof(Inquilino.Nombre)),
                                 Apellido = reader.GetString(nameof(Inquilino.Apellido)),
                                 Telefono = reader.GetString(nameof(Inquilino.Telefono)),
@@ -112,14 +112,14 @@ namespace ABM_inmobiliaria.Models
                     {nameof(Inquilino.Apellido)} =  @{nameof(Inquilino.Apellido)}, 
                     {nameof(Inquilino.Telefono)} = @{nameof(Inquilino.Telefono)}, 
                     {nameof(Inquilino.Email)} = @{nameof(Inquilino.Email)} 
-                    WHERE {nameof(Inquilino.IdInquilino)} = @Id";
+                    WHERE {nameof(Inquilino.Id)} = @Id";
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", inquilino.Nombre);
                     command.Parameters.AddWithValue("@Apellido", inquilino.Apellido);
                     command.Parameters.AddWithValue("@Telefono", inquilino.Telefono);
                     command.Parameters.AddWithValue("@Email", inquilino.Email);
-                    command.Parameters.AddWithValue("@Id", inquilino.IdInquilino);
+                    command.Parameters.AddWithValue("@Id", inquilino.Id);
                     connection.Open();
                     command.ExecuteNonQuery();
                     connection.Close();
@@ -133,7 +133,7 @@ namespace ABM_inmobiliaria.Models
         {
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = @$"DELETE FROM inquilino WHERE {nameof(Inquilino.IdInquilino)} = @Id";
+                var sql = @$"DELETE FROM inquilino WHERE {nameof(Inquilino.Id)} = @Id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {

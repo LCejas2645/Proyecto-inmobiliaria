@@ -23,7 +23,7 @@ namespace ABM_inmobiliaria.Models
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = @$"SELECT {nameof(Propietario.IdPropietario)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Apellido)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Telefono)}, {nameof(Propietario.Email)} FROM Propietario";
+                var sql = @$"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Apellido)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Telefono)}, {nameof(Propietario.Email)} FROM Propietario";
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -33,7 +33,7 @@ namespace ABM_inmobiliaria.Models
                         {
                             propietarios.Add(new Propietario
                             {
-                                IdPropietario = reader.GetInt32(nameof(Propietario.IdPropietario)),
+                                Id = reader.GetInt32(nameof(Propietario.Id)),
                                 Nombre = reader.GetString(nameof(Propietario.Nombre)),
                                 Apellido = reader.GetString(nameof(Propietario.Apellido)),
                                 Dni = reader.GetString(nameof(Propietario.Dni)),
@@ -55,7 +55,7 @@ namespace ABM_inmobiliaria.Models
         {
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = $"SELECT {nameof(Propietario.IdPropietario)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Apellido)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Telefono)}, {nameof(Propietario.Email)} FROM Propietario WHERE {nameof(Propietario.IdPropietario)} = @Id";
+                var sql = $"SELECT {nameof(Propietario.Id)}, {nameof(Propietario.Nombre)}, {nameof(Propietario.Apellido)}, {nameof(Propietario.Dni)}, {nameof(Propietario.Telefono)}, {nameof(Propietario.Email)} FROM Propietario WHERE {nameof(Propietario.Id)} = @Id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -67,7 +67,7 @@ namespace ABM_inmobiliaria.Models
                         {
                             return new Propietario
                             {
-                                IdPropietario = reader.GetInt32(nameof(Propietario.IdPropietario)),
+                                Id = reader.GetInt32(nameof(Propietario.Id)),
                                 Nombre = reader.GetString(nameof(Propietario.Nombre)),
                                 Apellido = reader.GetString(nameof(Propietario.Apellido)),
                                 Dni = reader.GetString(nameof(Propietario.Dni)),
@@ -118,7 +118,7 @@ namespace ABM_inmobiliaria.Models
                     {nameof(Propietario.Dni)} = @{nameof(Propietario.Dni)}, 
                     {nameof(Propietario.Telefono)} = @{nameof(Propietario.Telefono)}, 
                     {nameof(Propietario.Email)} = @{nameof(Propietario.Email)} 
-                    WHERE {nameof(Propietario.IdPropietario)} = @Id";
+                    WHERE {nameof(Propietario.Id)} = @Id";
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@Nombre", propietario.Nombre);
@@ -126,7 +126,7 @@ namespace ABM_inmobiliaria.Models
                     command.Parameters.AddWithValue("@Dni", propietario.Dni);
                     command.Parameters.AddWithValue("@Telefono", propietario.Telefono);
                     command.Parameters.AddWithValue("@Email", propietario.Email);
-                    command.Parameters.AddWithValue("@Id", propietario.IdPropietario);
+                    command.Parameters.AddWithValue("@Id", propietario.Id);
                     connection.Open();
                     command.ExecuteNonQuery();
                     connection.Close();
@@ -140,7 +140,7 @@ namespace ABM_inmobiliaria.Models
         {
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = @$"DELETE FROM propietario WHERE {nameof(Propietario.IdPropietario)} = @Id";
+                var sql = @$"DELETE FROM propietario WHERE {nameof(Propietario.Id)} = @Id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {

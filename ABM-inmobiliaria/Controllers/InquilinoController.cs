@@ -49,7 +49,7 @@ namespace ABM_inmobiliaria.Controllers
             if (ModelState.IsValid)
             {
                 RepositorioInquilino rp = new RepositorioInquilino();
-                if (inquilino.IdInquilino > 0)
+                if (inquilino.Id > 0)
                 {
                     // Si el Id es mayor que cero, es una solicitud de actualización.
                     rp.ActualizarInquilino(inquilino);
