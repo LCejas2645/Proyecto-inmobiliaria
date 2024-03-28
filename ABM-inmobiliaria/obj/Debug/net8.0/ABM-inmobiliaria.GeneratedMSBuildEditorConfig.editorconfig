@@ -18,12 +18,24 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Tamara\Documents\GitHub\Proyecto-inmobiliaria\ABM-inmobiliaria
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Contrato/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhdG9cSW5kZXguY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Inmueble/actualizar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5tdWVibGVcYWN0dWFsaXphci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Inmueble/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5tdWVibGVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Inmueble/Insertar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5tdWVibGVcSW5zZXJ0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Inmueble/Prueba.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5tdWVibGVcUHJ1ZWJhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Tamara/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Inquilino/Index.cshtml]

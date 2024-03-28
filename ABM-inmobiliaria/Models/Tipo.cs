@@ -7,17 +7,16 @@ namespace ABM_inmobiliaria.Models
 {
     public class Tipo
     {
-        private int IdTipo { get; set; }
-        private string? TipoInmueble { get; set; }
 
+        public int Id { get; set; }
+        public string TipoInmueble { get; set; } ="";
 
-        public Tipo() { }
-
-        public Tipo(int idTipo, string tipoInmueble)
+        public override string ToString()
         {
-            IdTipo = idTipo;
-            TipoInmueble = tipoInmueble;
+            return TipoInmueble;
         }
 
     }
+
+
 }

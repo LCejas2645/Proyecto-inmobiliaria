@@ -25,5 +25,14 @@ namespace ABM_inmobiliaria.Models
         [Required(ErrorMessage = "El campo Email es obligatorio")]
         [EmailAddress(ErrorMessage = "El campo Email no tiene un formato válido")]
         public string? Email { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Nombre} {Apellido}";
+        }
+
+
+
+
     }
 }
