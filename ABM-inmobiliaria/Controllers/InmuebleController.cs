@@ -13,7 +13,7 @@ namespace ABM_inmobiliaria.Controllers
     public class InmuebleController : Controller
     {
         private readonly ILogger<InmuebleController> _logger;
-
+        RepositorioInmueble ri = new RepositorioInmueble();
         private RepositorioPropietario rp = new RepositorioPropietario();
         private RepositorioTipo rt = new RepositorioTipo();
 
@@ -27,9 +27,17 @@ namespace ABM_inmobiliaria.Controllers
 
         public IActionResult Index()
         {
-            RepositorioInmueble ri = new RepositorioInmueble();
-            var inmuebles = ri.GetInmuebles();
-            return View(inmuebles);
+            try
+            {
+                var inmuebles = ri.GetInmuebles();
+                return View(inmuebles);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener la lista de inmuebles");
+                return RedirectToAction("Error");
+            }
+
         }
 
 
@@ -44,47 +52,56 @@ namespace ABM_inmobiliaria.Controllers
         [HttpPost]
         public IActionResult Insertar(Inmueble inmueble)
         {
-            if (ModelState.IsValid)
+            try
             {
-                RepositorioInmueble ri = new RepositorioInmueble();
-                ri.InsertarInmueble(inmueble);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    ri.InsertarInmueble(inmueble);
+                    return RedirectToAction("Index");
+                }
+                ViewBag.Propietarios = rp.GetPropietarios();
+                ViewBag.TiposInmueble = rt.GetTipo();
+                return View(inmueble);
             }
-            return View(inmueble);
-        }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al insertar el inmueble");
+                return RedirectToAction("Error");
+            }
 
+        }
 
         public IActionResult Actualizar(int id)
         {
-            RepositorioInmueble ri = new RepositorioInmueble();
             var inmueble = ri.GetInmueble(id);
-
             if (inmueble == null)
             {
                 return NotFound();
             }
-
             ViewBag.Propietarios = rp.GetPropietarios();
             ViewBag.TiposInmueble = rt.GetTipo();
-
             return View(inmueble);
         }
 
         [HttpPost]
         public IActionResult Actualizar(Inmueble inmueble)
         {
-            RepositorioInmueble ri = new RepositorioInmueble();
-
-            if (ModelState.IsValid)
+            try
             {
-                ri.ActualizarInmueble(inmueble);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    ri.ActualizarInmueble(inmueble);
+                    return RedirectToAction("Index");
+                }
+                ViewBag.Propietarios = rp.GetPropietarios();
+                ViewBag.TiposInmueble = rt.GetTipo();
+                return View(inmueble);
             }
-
-            ViewBag.Propietarios = rp.GetPropietarios();
-            ViewBag.TiposInmueble = rt.GetTipo();
-
-            return View(inmueble);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al insertar o actualizar al inquilino");
+                return RedirectToAction("Error");
+            }
         }
 
 
@@ -101,13 +118,17 @@ namespace ABM_inmobiliaria.Controllers
 
         public IActionResult Eliminar(int id)
         {
-            RepositorioInmueble ri = new RepositorioInmueble();
-            ri.EliminarInmueble(id);
-
-            return RedirectToAction("Index");
+            try
+            {
+                ri.EliminarInmueble(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al eliminar el inmueble");
+                return RedirectToAction("Error");
+            }
         }
-
-
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

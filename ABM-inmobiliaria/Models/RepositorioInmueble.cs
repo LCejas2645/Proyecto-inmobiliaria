@@ -23,7 +23,7 @@ namespace ABM_inmobiliaria.Models
                 var sql = @"SELECT i.Id, i.Direccion, i.Ambientes, i.Superficie, i.Latitud, i.Longitud, i.IdPropietario,
                 i.Disponible, i.IdTipo, i.Uso, i.Precio, p.Nombre AS NombrePropietario, p.Apellido AS ApellidoPropietario,
                 t.id AS IdTipoInmueble, t.tipoInmueble AS TipoInmueble
-                FROM Inmueble i INNER JOIN Propietario p ON i.IdPropietario = p.Id INNER JOIN tipo t ON i.IdTipo = t.id";
+                FROM Inmueble i INNER JOIN Propietario p ON i.IdPropietario = p.Id INNER JOIN tipo t ON i.IdTipo = t.id ORDER BY i.Id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {

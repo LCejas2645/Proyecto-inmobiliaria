@@ -12,6 +12,7 @@ namespace ABM_inmobiliaria.Controllers
     public class InquilinoController : Controller
     {
         private readonly ILogger<InquilinoController> _logger;
+          RepositorioInquilino rp = new RepositorioInquilino();
 
         public InquilinoController(ILogger<InquilinoController> logger)
         {
@@ -20,9 +21,17 @@ namespace ABM_inmobiliaria.Controllers
 
         public IActionResult Index()
         {
-            RepositorioInquilino rp = new RepositorioInquilino();
-            var listaInquilino = rp.GetInquilinos();
-            return View(listaInquilino);
+            try
+            {
+                var listaInquilino = rp.GetInquilinos();
+                return View(listaInquilino);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener la lista de propietarios");
+                return RedirectToAction("Error");
+            }
+
         }
 
         public IActionResult Insertar(int? id)
@@ -30,7 +39,6 @@ namespace ABM_inmobiliaria.Controllers
             if (id != null)
             {
                 // Si tiene un id, es una solicitud para actualizar
-                RepositorioInquilino rp = new RepositorioInquilino();
                 var inquilino = rp.GetInquilino(id.Value);
                 if (inquilino == null)
                 {
@@ -46,35 +54,48 @@ namespace ABM_inmobiliaria.Controllers
         [HttpPost]
         public IActionResult Insertar(Inquilino inquilino)
         {
-            if (ModelState.IsValid)
+            try
             {
-                RepositorioInquilino rp = new RepositorioInquilino();
-                if (inquilino.Id > 0)
+                if (ModelState.IsValid)
                 {
-                    // Si el Id es mayor que cero, es una solicitud de actualización.
-                    rp.ActualizarInquilino(inquilino);
-                    TempData["Mensaje"] = $"Se han actualizado los datos de {inquilino.Nombre} {inquilino.Apellido}";
+                    if (inquilino.Id > 0)
+                    {
+                        // Si el Id es mayor que cero, es una solicitud de actualización.
+                        rp.ActualizarInquilino(inquilino);
+                        TempData["Mensaje"] = $"Se han actualizado los datos de {inquilino.Nombre} {inquilino.Apellido}";
+                    }
+                    else
+                    {
+                        // Si el Id es cero o menos, es una solicitud de inserción.
+                        rp.InsertarInquilino(inquilino);
+                        TempData["Mensaje"] = $"Se ha insertado correctamente a {inquilino.Nombre} {inquilino.Apellido}";
+                    }
+                    return RedirectToAction("Index");
                 }
-                else
-                {
-                    // Si el Id es cero o menos, es una solicitud de inserción.
-                    rp.InsertarInquilino(inquilino);
-                    TempData["Mensaje"] = $"Se ha insertado correctamente a {inquilino.Nombre} {inquilino.Apellido}";
-                }
-                return RedirectToAction("Index");
+                return View(inquilino);
             }
-            return View(inquilino);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al insertar o actualizar al inquilino");
+                return RedirectToAction("Error");
+            }
         }
 
 
         public IActionResult Eliminar(int id)
         {
-            RepositorioInquilino rp = new RepositorioInquilino();
-            rp.EliminarInquilino(id);
-            TempData["Mensaje"] = $"Se eliminó correctamente al inquilino";
-            return RedirectToAction("Index");
+            try
+            {
+                rp.EliminarInquilino(id);
+                TempData["Mensaje"] = $"Se eliminó correctamente al inquilino";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al eliminar al inquilino");
+                return RedirectToAction("Error");
+            }
         }
-
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
