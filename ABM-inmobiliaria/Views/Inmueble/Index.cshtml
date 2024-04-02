@@ -19,17 +19,11 @@
         <thead>
             <tr>
                 @* <th>Id</th> *@
-
-                <th>Direccion</th>
-                <th>Ambientes</th>
-                <th>Superficie</th>
-                <th>Latitud</th>
-                <th>Longitud</th>
-                <th>id Propietario</th>
                 <th>Propietario</th>
-                <th>Disponible</th>
+                <th>Direccion</th>
+                <th>Cantidad de ambientes</th>
+                <th>Estado</th>
                 <th>Tipo</th>
-                <th>Uso</th>
                 <th>Precio</th>
 
                 <th></th>
@@ -40,27 +34,57 @@
             {
                 <tr>
                     <td style="display: none;">@Inmueble.Id</td>
-                    <td>@Inmueble.Direccion</td>
-                    <td>@Inmueble.Ambientes</td>
-                    <td>@Inmueble.Superficie</td>
-                    <td>@Inmueble.Latitud</td>
-                    <td>@Inmueble.Longitud</td>
-                    <td>@Inmueble.IdPropietario</td>
                     <td>@Inmueble.Propietario.ToString()</td>
-                    <td>@Inmueble.Disponible</td>
+                    <td>@Inmueble.Direccion</td>
+                    <td>@Inmueble.Ambientes ambientes</td>
+                    <td>@(Inmueble.Disponible ? "Disponible" : "No Disponible")</td>
                     <td>@Inmueble.Tipo.ToString()</td>
-                    <td>@Inmueble.Uso</td>
                     <td>@Inmueble.Precio</td>
-                    
+
                     <td>
+                        <a asp-controller="Inmueble" asp-action="Detalles" asp-route-id="@Inmueble.Id"
+                            class="btn btn-info btn-sm boton" style="width: 80px;" data-bs-toggle="modal"
+                            data-bs-target="#modalDetalles_@Inmueble.Id">
+                            Detalles
+                        </a>
+
                         <a asp-controller="Inmueble" asp-action="Actualizar" asp-route-id="@Inmueble.Id"
-                            class="btn btn-primary btn-sm">Modificar</a>
+                            class="btn btn-primary btn-sm boton" style="width: 80px;">Modificar</a>
 
                         <a asp-controller="Inmueble" asp-action="Eliminar" asp-route-id="@Inmueble.Id"
-                            class="btn btn-danger btn-sm"
+                            class="btn btn-danger btn-sm boton" style="width: 80px;"
                             onclick="return confirm('¿Estás seguro de que deseas eliminar esta persona?')">Eliminar</a>
                     </td>
                 </tr>
+
+                <!-- Modal para detalles del inmueble -->
+                <div class="modal fade" id="modalDetalles_@Inmueble.Id" tabindex="-1"
+                    aria-labelledby="modalDetallesLabel_@Inmueble.Id" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalDetallesLabel_@Inmueble.Id">Detalles del Inmueble</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                    <p><strong>Propietario:</strong> @Inmueble.Propietario.ToString()</p>
+                                    <p><strong>Dirección:</strong> @Inmueble.Direccion</p>
+                                    <p><strong>Cantidad de Ambientes:</strong> @Inmueble.Ambientes</p>
+                                    <p><strong>Superficie:</strong> @Inmueble.Superficie</p>
+                                    <p><strong>Latitud:</strong> @Inmueble.Latitud</p>
+                                    <p><strong>Longitud:</strong> @Inmueble.Longitud</p>
+                                    <p><strong>Estado:</strong> @(Inmueble.Disponible ? "Disponible" : "No Disponible")</p>
+                                    <p><strong>Tipo:</strong> @Inmueble.Tipo.ToString()</p>
+                                    <p><strong>Uso:</strong> @Inmueble.Uso</p>
+                                    <p><strong>Precio:</strong> @Inmueble.Precio</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         </tbody>
     </table>
