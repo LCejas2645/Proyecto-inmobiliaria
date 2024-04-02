@@ -11,6 +11,7 @@ namespace ABM_inmobiliaria.Models
         public Inquilino? Inquilino { get; set; }
         public Propietario? Propietario { get; set; }
         public Inmueble? Inmueble { get; set; }
+        public Usuario? usuario {get;set;}
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public bool Vigente { get; set; }
