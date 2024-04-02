@@ -1,0 +1,51 @@
+@model IEnumerable<Contrato>
+
+@{
+    ViewData["Title"] = "Contrato";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">ABM de Inmueble</h1>
+    <a asp-controller="Inmueble" asp-action="Insertar" class="btn btn-success mb-3">Agregar Inmueble</a>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                @* <th>Id</th> *@
+
+                <th>ID</th>
+                <th>Inquilino</th>
+                <th>Propietario</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Vigente</th>
+                <th>Monto mensual</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Contrato in Model)
+            {
+                <tr>
+                    <td>@Contrato.Id</td>
+                    <td>@Contrato.Inquilino.ToString()</td>
+                    <td>@Contrato.Propietario.ToString()</td>
+                    <td>@Contrato.FechaInicio.ToShortDateString()</td>
+                    <td>@Contrato.FechaFin.ToShortDateString()</td>
+                    <td>@Contrato.Vigente</td>
+                    <td>@Contrato.MontoMensual</td>
+                    
+                     <td>
+                        <a asp-controller="Inmueble" asp-action="Actualizar" asp-route-id="@Contrato.Id"
+                            class="btn btn-primary btn-sm">Modificar</a>
+
+                        <a asp-controller="Inmueble" asp-action="Eliminar" asp-route-id="@Contrato.Id"
+                            class="btn btn-danger btn-sm"
+                            onclick="return confirm('¿Estás seguro de que deseas eliminar esta persona?')">Eliminar</a>
+                    </td> 
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -38,6 +38,9 @@ namespace ABM_inmobiliaria.Models
 
         }
 
-
+        // public static implicit operator Contrato(Contrato v)
+        // {
+        //     throw new NotImplementedException();
+        // }
     }
 }
