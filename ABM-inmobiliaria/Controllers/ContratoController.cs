@@ -14,8 +14,14 @@ namespace ABM_inmobiliaria.Controllers
     {
         private readonly ILogger<InmuebleController> _logger;
         RepositorioContrato rc = new RepositorioContrato();
-        // private RepositorioPropietario rp = new RepositorioPropietario();
-        // private RepositorioTipo rt = new RepositorioTipo();
+        private RepositorioPropietario rp = new RepositorioPropietario();
+        private RepositorioTipo rt = new RepositorioTipo();
+        private RepositorioInquilino ri = new RepositorioInquilino();
+        private RepositorioInmueble rinm = new RepositorioInmueble();
+
+        //private RepositorioUsuario ru = new RepositorioUsuario();
+
+
 
 
         public ContratoController(ILogger<InmuebleController> logger)
@@ -35,6 +41,36 @@ namespace ABM_inmobiliaria.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al obtener la lista de contratos");
+                return RedirectToAction("Error");
+            }
+        }
+
+        public IActionResult Insertar()
+        {
+            ViewBag.Propietarios = rp.GetPropietarios();
+            ViewBag.Inquilinos = ri.GetInquilinos();
+            ViewBag.inmuebles = rinm.GetInmuebles();
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Insertar(Contrato contrato)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    rc.InsertarContrato(contrato);
+                    return RedirectToAction("Index");
+                }
+                ViewBag.Propietarios = rp.GetPropietarios();
+                ViewBag.Inquilinos = ri.GetInquilinos();
+                ViewBag.inmuebles = rinm.GetInmuebles();
+                return View(contrato);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al insertar el contrato");
                 return RedirectToAction("Error");
             }
 

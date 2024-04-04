@@ -21,11 +21,13 @@ namespace ABM_inmobiliaria.Models
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = @"SELECT c.Id, idInquilino, idPropietario, vigente, montoMensual, fechaInicio, fechaFin,
+                var sql = @"SELECT c.Id, idInmueble, idInquilino, c.idPropietario, vigente, montoMensual, fechaInicio, fechaFin,
                                 i.nombre AS nombreInquilino,i.apellido AS apellidoInquilino,
-                                p.nombre AS nombrePropietario, p.apellido AS apellidoPropietario
+                                p.nombre AS nombrePropietario, p.apellido AS apellidoPropietario,
+                                inm.direccion AS direccionInmueble, inm.ambientes AS ambientes
                             FROM contrato c INNER JOIN inquilino i ON c.idInquilino = i.id
-                                            INNER JOIN propietario p ON c.idPropietario = p.id";
+                                            INNER JOIN propietario p ON c.idPropietario = p.id
+                                            INNER JOIN inmueble inm ON c.idInmueble = inm.id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -50,6 +52,11 @@ namespace ABM_inmobiliaria.Models
                                     Nombre = reader.GetString("nombrePropietario"),
                                     Apellido = reader.GetString("apellidoPropietario")
                                 },
+                                Inmueble = new Inmueble{
+                                    Id = reader.GetInt32("idInmueble"),
+                                    Direccion = reader.GetString("direccionInmueble"),
+                                    Ambientes = reader.GetInt32("ambientes")
+                                },
                                 Vigente = reader.GetBoolean("vigente"),
                                 MontoMensual = reader.GetDouble("montoMensual")
                             };
@@ -59,6 +66,29 @@ namespace ABM_inmobiliaria.Models
                     }
                 }
                 return listaContratos;
+            }
+        }
+
+        public void InsertarContrato(Contrato contrato)
+        {
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                string sql = @"INSERT INTO contrato (idInquilino, idInmueble, idPropietario, fechaInicio, fechaFin,montoMensual)
+                VALUES (@IdInquilino, @IdInmueble, @IdPropietario, @FechaInicio, @FechaFin, @MontoMensual)";
+
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@IdPropietario", contrato.idPropietario);
+                    command.Parameters.AddWithValue("@IdInquilino", contrato.idInquilino);
+                    command.Parameters.AddWithValue("@IdInmueble", contrato.idInmueble);
+                    command.Parameters.AddWithValue("@FechaInicio", contrato.FechaInicio);
+                    command.Parameters.AddWithValue("@FechaFin", contrato.FechaFin);
+                    command.Parameters.AddWithValue("@MontoMensual", contrato.MontoMensual);
+                
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
             }
         }
     }

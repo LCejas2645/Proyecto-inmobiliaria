@@ -27,7 +27,7 @@ namespace ABM_inmobiliaria.Models
 
         public override string ToString()
         {
-            return $"{Ambientes} Ambientes";
+            return $"Direccion: {Direccion}, {Ambientes} Ambientes";
         }
 
     }

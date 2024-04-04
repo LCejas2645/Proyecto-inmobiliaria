@@ -5,8 +5,8 @@
 }
 
 <div class="container mt-5">
-    <h1 class="mb-4">ABM de Inmueble</h1>
-    <a asp-controller="Inmueble" asp-action="Insertar" class="btn btn-success mb-3">Agregar Inmueble</a>
+    <h1 class="mb-4">ABM de Contrato</h1>
+    <a asp-controller="Contrato" asp-action="Insertar" class="btn btn-success mb-3">Agregar Contrato</a>
 
 
     <table class="table">
@@ -37,6 +37,11 @@
                     <td>@Contrato.MontoMensual</td>
                     
                      <td>
+                        <a asp-controller="Contrato" asp-action="Detalles" asp-route-id="@Contrato.Id"
+                            class="btn btn-info btn-sm boton" style="width: 100px;" data-bs-toggle="modal"
+                            data-bs-target="#modalDetalles_@Contrato.Id">
+                            Detalles
+                        </a>
                         <a asp-controller="Inmueble" asp-action="Actualizar" asp-route-id="@Contrato.Id"
                             class="btn btn-primary btn-sm">Modificar</a>
 
@@ -45,6 +50,27 @@
                             onclick="return confirm('¿Estás seguro de que deseas eliminar esta persona?')">Eliminar</a>
                     </td> 
                 </tr>
+                <!-- Modal para detalles del Contrato -->
+                <div class="modal fade" id="modalDetalles_@Contrato.Id" tabindex="-1"
+                    aria-labelledby="modalDetallesLabel_@Contrato.Id" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalDetallesLabel_@Contrato.Id">Detalles del Contrato</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container">
+                                    <p><strong>Inmueble:</strong> @Contrato.Inmueble.ToString()</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         </tbody>
     </table>

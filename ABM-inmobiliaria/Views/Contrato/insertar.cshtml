@@ -1,0 +1,77 @@
+@model Contrato
+@{
+    ViewData["Title"] = "Agregar Contrato";
+    var propietarios = (IList<Propietario>)ViewBag.Propietarios;
+    var inmuebles = (IList<Inmueble>)ViewBag.Inmuebles;
+    var inquilinos = (IList<Inquilino>)ViewBag.Inquilinos;
+    //var usuarios = (IList<Usuario>)ViewBag.usuarios;
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h3 class="text-center">@ViewData["Title"]</h3>
+
+            <form asp-controller="Contrato" asp-action="Insertar" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label class="control-label">Propietarios</label>
+                    <select class="form-control" name="IdPropietario">
+                        @foreach (var item in propietarios)
+                        {
+                            <option value="@item.Id">@(item.ToString())</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Inquilinos</label>
+                    <select class="form-control" name="IdInquilino">
+                        @foreach (var item in inquilinos)
+                        {
+                            <option value="@item.Id">@(item.ToString())</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Inmuebles</label>
+                    <select class="form-control" name="IdInmueble">
+                        @foreach (var item in inmuebles)
+                        {
+                            <option value="@item.Id">@(item.ToString())</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Fecha inicio</span>
+                    <input type="date" class="form-control" id="datepicker" asp-for="FechaInicio" name="fechaInicio" aria-describedby="basic-addon1">
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Fecha Finalizacion</span>
+                    <input type="date" class="form-control" id="datepicker" asp-for="FechaFin" name="fechaFin" aria-describedby="basic-addon1">
+                </div>
+
+                <div class="form-group">
+                <label asp-for="MontoMensual" class="control-label"></label>
+                <input asp-for="MontoMensual" class="form-control" type="number" />
+                <span asp-validation-for="MontoMensual" class="text-danger"></span>
+                </div> 
+
+
+                <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+                <a asp-controller="Contrato" asp-action="Index" class="btn btn-danger mt-3 ml-2">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>
