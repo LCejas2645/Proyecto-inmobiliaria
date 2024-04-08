@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\Luciano\Documents\GitHub\Proyecto-inmobiliaria\ABM-inmobiliaria
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/Luciano/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Contrato/Actualizar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhdG9cQWN0dWFsaXphci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Luciano/Documents/GitHub/Proyecto-inmobiliaria/ABM-inmobiliaria/Views/Contrato/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJhdG9cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

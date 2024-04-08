@@ -75,5 +75,40 @@ namespace ABM_inmobiliaria.Controllers
             }
 
         }
+
+        public IActionResult Actualizar(int id)
+        {
+            var contrato = rc.GetContrato(id);
+            if (contrato == null)
+            {
+                return NotFound();
+            }
+            ViewBag.Propietarios = rp.GetPropietarios();
+            ViewBag.Inquilinos = ri.GetInquilinos();
+            ViewBag.Inmuebles = rinm.GetInmuebles();
+            return View(contrato);
+        }
+
+        [HttpPost]
+        public IActionResult Actualizar(Contrato contrato)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    rc.ActualizarContrato(contrato);
+                    return RedirectToAction("Index");
+                }
+                ViewBag.Propietarios = rp.GetPropietarios();
+                ViewBag.Inquilinos = ri.GetInquilinos();
+                ViewBag.Inmuebles = rinm.GetInmuebles();
+                return View(contrato);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al insertar o actualizar al inquilino");
+                return RedirectToAction("Error");
+            }
+        }
     }
 }
