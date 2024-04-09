@@ -12,7 +12,7 @@ namespace ABM_inmobiliaria.Controllers
     public class InquilinoController : Controller
     {
         private readonly ILogger<InquilinoController> _logger;
-          RepositorioInquilino rp = new RepositorioInquilino();
+        RepositorioInquilino rp = new RepositorioInquilino();
 
         public InquilinoController(ILogger<InquilinoController> logger)
         {
@@ -63,12 +63,14 @@ namespace ABM_inmobiliaria.Controllers
                         // Si el Id es mayor que cero, es una solicitud de actualización.
                         rp.ActualizarInquilino(inquilino);
                         TempData["Mensaje"] = $"Se han actualizado los datos de {inquilino.Nombre} {inquilino.Apellido}";
+                        TempData["TipoMensaje"] = "success";
                     }
                     else
                     {
                         // Si el Id es cero o menos, es una solicitud de inserción.
                         rp.InsertarInquilino(inquilino);
                         TempData["Mensaje"] = $"Se ha insertado correctamente a {inquilino.Nombre} {inquilino.Apellido}";
+                        TempData["TipoMensaje"] = "success";
                     }
                     return RedirectToAction("Index");
                 }
@@ -88,6 +90,7 @@ namespace ABM_inmobiliaria.Controllers
             {
                 rp.EliminarInquilino(id);
                 TempData["Mensaje"] = $"Se eliminó correctamente al inquilino";
+                TempData["TipoMensaje"] = "success";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

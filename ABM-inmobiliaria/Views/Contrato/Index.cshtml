@@ -4,6 +4,19 @@
     ViewData["Title"] = "Contrato";
 }
 
+
+@if (TempData["Mensaje"] != null)
+{
+    string tipoMensaje = TempData["TipoMensaje"] as string;
+    string claseAlerta = tipoMensaje == "error" ? "alert-danger" : "alert-success";
+
+    <div class="alert @claseAlerta alert-dismissible fade show" role="alert">
+        @TempData["Mensaje"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
 <div class="container mt-5">
     <h1 class="mb-4">ABM de Contrato</h1>
     <a asp-controller="Contrato" asp-action="Insertar" class="btn btn-success mb-3">Agregar Contrato</a>
@@ -61,7 +74,15 @@
 
                             <div class="modal-body">
                                 <div class="container">
-                                    <p><strong>Inmueble:</strong> @Contrato.Inmueble.ToString()</p>
+                                    <p><strong>Id: </strong>@Contrato.Id</p>
+                                    <p><strong>Propietario: </strong>@Contrato.Propietario.ToString()</p>
+                                    <p><strong> Inquilino: </strong> @Contrato.Inquilino.ToString()</p>
+                                    <p><strong>Datos del inmueble: </strong> @Contrato.Inmueble.ToString()</p>
+                                    <p> <strong>Fecha de inicio: </strong>@Contrato.FechaInicio.ToShortDateString()</p>
+                                    <p> <strong>Fecha de fin: </strong>@Contrato.FechaFin.ToShortDateString()</p>
+                                    <p> <strong>Vigente: </strong>@Contrato.Vigente </p>
+                                    <p><strong>Monto mensual: </strong>@Contrato.MontoMensual</p>
+
                                 </div>
                             </div>
                             <div class="modal-footer">

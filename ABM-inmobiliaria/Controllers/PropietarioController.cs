@@ -62,12 +62,14 @@ namespace ABM_inmobiliaria.Controllers
                         // Si el Id es mayor que cero, es una solicitud de actualización.
                         rp.ActualizarPropietario(propietario);
                         TempData["Mensaje"] = $"Se han actualizado los datos de {propietario.Nombre} {propietario.Apellido}";
+                        TempData["TipoMensaje"] = "success";
                     }
                     else
                     {
                         // Si el Id es cero o menos, es una solicitud de inserción.
                         rp.InsertarPropietario(propietario);
                         TempData["Mensaje"] = $"Se ha insertado correctamente a {propietario.Nombre} {propietario.Apellido}";
+                        TempData["TipoMensaje"] = "success";
                     }
                     return RedirectToAction("Index");
                 }
@@ -87,6 +89,7 @@ namespace ABM_inmobiliaria.Controllers
             {
                 rp.EliminarPropietario(id);
                 TempData["Mensaje"] = $"Se eliminó correctamente al propietario";
+                TempData["TipoMensaje"] = "success";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

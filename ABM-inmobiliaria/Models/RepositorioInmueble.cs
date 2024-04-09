@@ -132,10 +132,9 @@ namespace ABM_inmobiliaria.Models
                     command.Parameters.AddWithValue("@Latitud", inmueble.Latitud);
                     command.Parameters.AddWithValue("@Longitud", inmueble.Longitud);
                     command.Parameters.AddWithValue("@IdPropietario", inmueble.IdPropietario);
-                    //command.Parameters.AddWithValue("@IdPropietario", 1);
                     command.Parameters.AddWithValue("@IdTipo", inmueble.IdTipo);
-                    //command.Parameters.AddWithValue("@IdTipo", 1);
-                    command.Parameters.AddWithValue("@Disponible", inmueble.Disponible);
+                    //command.Parameters.AddWithValue("@Disponible", inmueble.Disponible);
+                    command.Parameters.AddWithValue("@Disponible", true);
                     command.Parameters.AddWithValue("@Uso", inmueble.Uso);
                     command.Parameters.AddWithValue("@Precio", inmueble.Precio);
 

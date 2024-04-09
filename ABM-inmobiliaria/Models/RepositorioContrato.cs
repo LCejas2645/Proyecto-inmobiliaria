@@ -42,17 +42,20 @@ namespace ABM_inmobiliaria.Models
                                 Id = reader.GetInt32("Id"),
                                 FechaFin = reader.GetDateTime("fechaFin"),
                                 FechaInicio = reader.GetDateTime("fechaInicio"),
-                                Inquilino = new Inquilino{
+                                Inquilino = new Inquilino
+                                {
                                     Id = reader.GetInt32("idInquilino"),
                                     Nombre = reader.GetString("nombreInquilino"),
                                     Apellido = reader.GetString("apellidoInquilino"),
                                 },
-                                Propietario = new Propietario{
+                                Propietario = new Propietario
+                                {
                                     Id = reader.GetInt32("idPropietario"),
                                     Nombre = reader.GetString("nombrePropietario"),
                                     Apellido = reader.GetString("apellidoPropietario")
                                 },
-                                Inmueble = new Inmueble{
+                                Inmueble = new Inmueble
+                                {
                                     Id = reader.GetInt32("idInmueble"),
                                     Direccion = reader.GetString("direccionInmueble"),
                                     Ambientes = reader.GetInt32("ambientes")
@@ -84,7 +87,7 @@ namespace ABM_inmobiliaria.Models
                     command.Parameters.AddWithValue("@FechaInicio", contrato.FechaInicio);
                     command.Parameters.AddWithValue("@FechaFin", contrato.FechaFin);
                     command.Parameters.AddWithValue("@MontoMensual", contrato.MontoMensual);
-                
+
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -92,8 +95,10 @@ namespace ABM_inmobiliaria.Models
             }
         }
 
-        public Contrato? GetContrato(int id){
-            using (var connection = new MySqlConnection(ConnectionString)){
+        public Contrato? GetContrato(int id)
+        {
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
                 var sql = @"SELECT c.Id, idInmueble, idInquilino, c.idPropietario, vigente, montoMensual, fechaInicio, fechaFin,
                                 i.nombre AS nombreInquilino,i.apellido AS apellidoInquilino,
                                 p.nombre AS nombrePropietario, p.apellido AS apellidoPropietario,
@@ -103,29 +108,36 @@ namespace ABM_inmobiliaria.Models
                                             INNER JOIN inmueble inm ON c.idInmueble = inm.id
                             WHERE c.Id = @Id";
 
-                using (var command = new MySqlCommand(sql, connection)){
+                using (var command = new MySqlCommand(sql, connection))
+                {
                     command.Parameters.AddWithValue("@Id", id);
                     connection.Open();
-                    using (var reader = command.ExecuteReader()){
-                        if (reader.Read()){
-                            return new Contrato{
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Contrato
+                            {
                                 Id = reader.GetInt32("Id"),
                                 FechaFin = reader.GetDateTime("fechaFin"),
                                 FechaInicio = reader.GetDateTime("fechaInicio"),
                                 idInquilino = reader.GetInt32("idInquilino"),
-                                Inquilino = new Inquilino{
+                                Inquilino = new Inquilino
+                                {
                                     Id = reader.GetInt32("idInquilino"),
                                     Nombre = reader.GetString("nombreInquilino"),
                                     Apellido = reader.GetString("apellidoInquilino"),
                                 },
                                 idPropietario = reader.GetInt32("idPropietario"),
-                                Propietario = new Propietario{
+                                Propietario = new Propietario
+                                {
                                     Id = reader.GetInt32("idPropietario"),
                                     Nombre = reader.GetString("nombrePropietario"),
                                     Apellido = reader.GetString("apellidoPropietario")
                                 },
                                 idInmueble = reader.GetInt32("idInmueble"),
-                                Inmueble = new Inmueble{
+                                Inmueble = new Inmueble
+                                {
                                     Id = reader.GetInt32("idInmueble"),
                                     Direccion = reader.GetString("direccionInmueble"),
                                     Ambientes = reader.GetInt32("ambientes")
@@ -152,29 +164,74 @@ namespace ABM_inmobiliaria.Models
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
-                        
-                         command.Parameters.AddWithValue("@idInquilino", contrato.idInquilino);
-                         command.Parameters.AddWithValue("@idInmueble", contrato.idInmueble);
-                         command.Parameters.AddWithValue("@idPropietario", contrato.idPropietario);
-                         command.Parameters.AddWithValue("@fechaInicio", contrato.FechaInicio);
-                         command.Parameters.AddWithValue("@fechaFin", contrato.FechaFin);
-                         command.Parameters.AddWithValue("@montoMensual", contrato.MontoMensual);
-                        command.Parameters.AddWithValue("@id", contrato.Id);
-                        // command.Parameters.AddWithValue("@Ambientes", inmueble.Ambientes);
-                        // command.Parameters.AddWithValue("@Superficie", inmueble.Superficie);
-                        // command.Parameters.AddWithValue("@Latitud", inmueble.Latitud);
-                        // command.Parameters.AddWithValue("@Longitud", inmueble.Longitud);
-                        // command.Parameters.AddWithValue("@IdPropietario", inmueble.IdPropietario);
-                        // command.Parameters.AddWithValue("@Disponible", inmueble.Disponible);
-                        // command.Parameters.AddWithValue("@IdTipo", inmueble.IdTipo);
-                        // command.Parameters.AddWithValue("@Uso", inmueble.Uso);
-                        // command.Parameters.AddWithValue("@Precio", inmueble.Precio);
-                        // command.Parameters.AddWithValue("@Id", inmueble.Id);
+
+                    command.Parameters.AddWithValue("@idInquilino", contrato.idInquilino);
+                    command.Parameters.AddWithValue("@idInmueble", contrato.idInmueble);
+                    command.Parameters.AddWithValue("@idPropietario", contrato.idPropietario);
+                    command.Parameters.AddWithValue("@fechaInicio", contrato.FechaInicio);
+                    command.Parameters.AddWithValue("@fechaFin", contrato.FechaFin);
+                    command.Parameters.AddWithValue("@montoMensual", contrato.MontoMensual);
+                    command.Parameters.AddWithValue("@id", contrato.Id);
+                    // command.Parameters.AddWithValue("@Ambientes", inmueble.Ambientes);
+                    // command.Parameters.AddWithValue("@Superficie", inmueble.Superficie);
+                    // command.Parameters.AddWithValue("@Latitud", inmueble.Latitud);
+                    // command.Parameters.AddWithValue("@Longitud", inmueble.Longitud);
+                    // command.Parameters.AddWithValue("@IdPropietario", inmueble.IdPropietario);
+                    // command.Parameters.AddWithValue("@Disponible", inmueble.Disponible);
+                    // command.Parameters.AddWithValue("@IdTipo", inmueble.IdTipo);
+                    // command.Parameters.AddWithValue("@Uso", inmueble.Uso);
+                    // command.Parameters.AddWithValue("@Precio", inmueble.Precio);
+                    // command.Parameters.AddWithValue("@Id", inmueble.Id);
 
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
             }
         }
+
+        public void EliminarContrato(int id)
+        {
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                var sql = @$"DELETE FROM contrato WHERE {nameof(Contrato.Id)} = @Id";
+
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+        }
+
+        //metodo para controlar el inmueble no este ocupado por otro contrato en las mismas fechas 
+        public bool InmuebleOcupadoEnOtroContrato(int idInmueble, DateTime fechaInicio, int idContrato)
+        {
+            // Consulta para verificar si hay algún contrato que coincida con las fechas del contrato nuevo
+            string sql = @"SELECT COUNT(*) FROM contrato 
+                   WHERE idInmueble = @IdInmueble 
+                   AND fechaFin >= @FechaInicio
+                   AND id != @IdContrato";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@IdInmueble", idInmueble);
+                    command.Parameters.AddWithValue("@FechaInicio", fechaInicio);
+                    command.Parameters.AddWithValue("@IdContrato", idContrato);
+
+                    connection.Open();
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+
+                    // Si count es mayor que 0, significa que el inmueble está ocupado en otro contrato con fecha de fin después de la fecha de inicio del contrato nuevo
+                    return count > 0;
+                }
+            }
+        }
+
+
+
     }
 }

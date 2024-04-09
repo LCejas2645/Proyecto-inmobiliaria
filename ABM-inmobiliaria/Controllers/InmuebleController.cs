@@ -57,6 +57,8 @@ namespace ABM_inmobiliaria.Controllers
                 if (ModelState.IsValid)
                 {
                     ri.InsertarInmueble(inmueble);
+                    TempData["Mensaje"] = "El inmueble se ha creado correctamente.";
+                    TempData["TipoMensaje"] = "success";
                     return RedirectToAction("Index");
                 }
                 ViewBag.Propietarios = rp.GetPropietarios();
@@ -91,6 +93,8 @@ namespace ABM_inmobiliaria.Controllers
                 if (ModelState.IsValid)
                 {
                     ri.ActualizarInmueble(inmueble);
+                    TempData["Mensaje"] = "El inmueble se ha actualizado correctamente.";
+                    TempData["TipoMensaje"] = "success";
                     return RedirectToAction("Index");
                 }
                 ViewBag.Propietarios = rp.GetPropietarios();
@@ -121,6 +125,8 @@ namespace ABM_inmobiliaria.Controllers
             try
             {
                 ri.EliminarInmueble(id);
+                TempData["Mensaje"] = $"Se eliminó correctamente el inmueble";
+                TempData["TipoMensaje"] = "success";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

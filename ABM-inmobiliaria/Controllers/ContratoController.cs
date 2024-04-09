@@ -53,28 +53,65 @@ namespace ABM_inmobiliaria.Controllers
             return View();
         }
 
-        [HttpPost]
+          [HttpPost]
         public IActionResult Insertar(Contrato contrato)
         {
             try
             {
+                // Verificar si la fecha de inicio es mayor o igual que la fecha de fin
+                if (contrato.FechaInicio >= contrato.FechaFin)
+                {
+                    throw new ArgumentException("Error: La fecha de inicio no puede ser mayor o igual que la fecha de fin.");
+                }
+
+                // Verificar si el inmueble está ocupado en otro contrato entre las fechas proporcionadas
+                bool inmuebleOcupado = rc.InmuebleOcupadoEnOtroContrato(contrato.idInmueble, contrato.FechaInicio, contrato.Id);
+                if (inmuebleOcupado)
+                {
+                    throw new ArgumentException("Error: El inmueble ya está ocupado en otro contrato durante las fechas proporcionadas.");
+                }
+
+                contrato.Inmueble = rinm.GetInmueble(contrato.idInmueble);
+
+                //Verificar que el inmueble este disponible
+                if (contrato.Inmueble != null && !contrato.Inmueble.Disponible)
+                {
+                    throw new ArgumentException("Error: El inmueble seleccionado no está disponible actualmente");
+                }
+
+
+                // Si no hay errores, insertar el contrato
                 if (ModelState.IsValid)
                 {
                     rc.InsertarContrato(contrato);
+                    TempData["Mensaje"] = "El contrato se ha creado correctamente.";
+                    TempData["TipoMensaje"] = "success";
                     return RedirectToAction("Index");
                 }
                 ViewBag.Propietarios = rp.GetPropietarios();
                 ViewBag.Inquilinos = ri.GetInquilinos();
                 ViewBag.inmuebles = rinm.GetInmuebles();
+
                 return View(contrato);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
+            {
+                // Capturar la excepción y mostrar el mensaje de error
+                TempData["Mensaje"] = ex.Message;
+                TempData["TipoMensaje"] = "error";
+                ViewBag.Propietarios = rp.GetPropietarios();
+                ViewBag.Inquilinos = ri.GetInquilinos();
+                ViewBag.inmuebles = rinm.GetInmuebles();
+
+                return RedirectToAction("index");
+            }
+             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al insertar el contrato");
                 return RedirectToAction("Error");
             }
-
         }
+
 
         public IActionResult Actualizar(int id)
         {
@@ -94,9 +131,32 @@ namespace ABM_inmobiliaria.Controllers
         {
             try
             {
+                // Verificar si la fecha de inicio es mayor o igual que la fecha de fin
+                if (contrato.FechaInicio >= contrato.FechaFin)
+                {
+                    throw new ArgumentException("Error: La fecha de inicio no puede ser mayor o igual que la fecha de fin.");
+                }
+
+                // Verificar si el inmueble está ocupado en otro contrato entre las fechas proporcionadas
+                bool inmuebleOcupado = rc.InmuebleOcupadoEnOtroContrato(contrato.idInmueble, contrato.FechaInicio,contrato.Id);
+                if (inmuebleOcupado)
+                {
+                    throw new ArgumentException("Error: El inmueble ya está ocupado en otro contrato durante las fechas proporcionadas.");
+                }
+
+                contrato.Inmueble = rinm.GetInmueble(contrato.idInmueble);
+
+                //Verificar que el inmueble este disponible
+                if (contrato.Inmueble != null && !contrato.Inmueble.Disponible)
+                {
+                    throw new ArgumentException("Error: El inmueble seleccionado no está disponible actualmente");
+                }
+
                 if (ModelState.IsValid)
                 {
                     rc.ActualizarContrato(contrato);
+                    TempData["Mensaje"] = "El contrato se ha actualizado correctamente.";
+                    TempData["TipoMensaje"] = "success";
                     return RedirectToAction("Index");
                 }
                 ViewBag.Propietarios = rp.GetPropietarios();
@@ -104,11 +164,37 @@ namespace ABM_inmobiliaria.Controllers
                 ViewBag.Inmuebles = rinm.GetInmuebles();
                 return View(contrato);
             }
+            catch (ArgumentException ex)
+            {
+                TempData["Mensaje"] = ex.Message;
+                TempData["TipoMensaje"] = "error";
+                ViewBag.Propietarios = rp.GetPropietarios();
+                ViewBag.Inquilinos = ri.GetInquilinos();
+                ViewBag.Inmuebles = rinm.GetInmuebles();
+                return RedirectToAction("Index");
+            }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al insertar o actualizar al inquilino");
+                _logger.LogError(ex, "Error al actualizar el contrato");
                 return RedirectToAction("Error");
             }
         }
+
+        public IActionResult Eliminar(int id)
+        {
+            try
+            {
+                rc.EliminarContrato(id);
+                TempData["Mensaje"] = $"Se eliminó correctamente el contrato";
+                TempData["TipoMensaje"] = "success";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al eliminar el contrato");
+                return RedirectToAction("Error");
+            }
+        }
+
     }
 }
