@@ -22,12 +22,12 @@
     <a asp-controller="Contrato" asp-action="Insertar" class="btn btn-success mb-3">Agregar Contrato</a>
 
 
-    <table class="table">
-        <thead>
+    <table id="miTabla" class="table">
+        <thead class="table-dark">
             <tr>
-                @* <th>Id</th> *@
+                @*<th>Id</th>*@
 
-                <th>ID</th>
+                @* <th>ID</th> *@
                 <th>Inquilino</th>
                 <th>Propietario</th>
                 <th>Fecha Inicio</th>
@@ -41,7 +41,7 @@
             @foreach (var Contrato in Model)
             {
                 <tr>
-                    <td>@Contrato.Id</td>
+                    @* <td>@Contrato.Id</td> *@
                     <td>@Contrato.Inquilino.ToString()</td>
                     <td>@Contrato.Propietario.ToString()</td>
                     <td>@Contrato.FechaInicio.ToShortDateString()</td>

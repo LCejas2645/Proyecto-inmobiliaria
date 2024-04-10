@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Inquilino>
-@{
+@{  
     ViewData["Title"] = "Inquilino";
 }
 
@@ -22,8 +22,8 @@
     <a asp-controller="Inquilino" asp-action="Insertar" class="btn btn-success mb-3">Agregar Inquilino</a>
 
 
-    <table class="table">
-        <thead>
+    <table id="miTabla" class="table">
+        <thead class="table-dark">
             <tr>
                 @* <th>Id</th> *@
                 <th>Nombre</th>
@@ -37,7 +37,7 @@
             @foreach (var Inquilino in Model)
             {
                 <tr>
-                    <td style="display: none;">@Inquilino.Id</td>
+                    @* <td style="display: none;">@Inquilino.Id</td> *@
                     <td>@Inquilino.Nombre</td>
                     <td>@Inquilino.Apellido</td>
                     <td>@Inquilino.Telefono</td>

@@ -20,8 +20,8 @@
     <a asp-controller="Inmueble" asp-action="Insertar" class="btn btn-success mb-3">Agregar Inmueble</a>
 
 
-    <table class="table">
-        <thead>
+    <table id="miTabla" class="table">
+        <thead class="table-dark">
             <tr>
                 @* <th>Id</th> *@
                 <th>Propietario</th>
@@ -38,7 +38,7 @@
             @foreach (var Inmueble in Model)
             {
                 <tr>
-                    <td style="display: none;">@Inmueble.Id</td>
+                    @* <td style="display: none;">@Inmueble.Id</td> *@
                     <td>@Inmueble.Propietario.ToString()</td>
                     <td>@Inmueble.Direccion</td>
                     <td>@Inmueble.Ambientes ambientes</td>
@@ -94,3 +94,4 @@
         </tbody>
     </table>
 </div>
+
