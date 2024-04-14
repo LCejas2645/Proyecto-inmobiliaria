@@ -13,7 +13,7 @@
 
 </head>
 
-<body>
+<body style="">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -35,21 +35,42 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Inquilino"
                                 asp-action="Index">Inquilino</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Inmueble"
+                        <li class="nav-item nav-item dropdown">
+                            <a class="nav-link text-dark dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false" asp-area="" asp-controller="Inmueble"
                                 asp-action="Index">Inmueble</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Tipo" asp-action="Index" style="font-size: small;">Administrar tipo de inmuebles</a></li>
+                                @* <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li> *@
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Contrato"
                                 asp-action="Index">Contrato</a>
                         </li>
+                         <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li> 
 
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container" style="max-width:100%">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -61,25 +82,27 @@
         </div>
     </footer>
 
-    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>    *@
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @* <script src="https://cdn.jsdelivr.net/npm/bootstrap-native@4.3.2/dist/bootstrap-native-v4.min.js"></script> *@
 
     @* <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var datepicker = new Datepicker('#datepicker', {
-                format: 'yyyy-mm-dd',
-                autoclose: true
-            });
-        });
+    document.addEventListener('DOMContentLoaded', function () {
+    var datepicker = new Datepicker('#datepicker', {
+    format: 'yyyy-mm-dd',
+    autoclose: true
+    });
+    });
     </script> *@
 
-    @* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-qsiV8ZkP9wlT32HouJTbTpqtW6SAWB5iJxYhAxN1Tw1d1YGrOrPQR3Me8wbca2gO" crossorigin="anonymous"></script>*@
-    <script src="~/js/site.js" asp-append-version="true"></script> 
+    @* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-qsiV8ZkP9wlT32HouJTbTpqtW6SAWB5iJxYhAxN1Tw1d1YGrOrPQR3Me8wbca2gO"
+    crossorigin="anonymous"></script>*@
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @* <script>
-        var fechaActual = new Date();
-        var fechaFormateada = fechaActual.toISOString().split('T')[0];
-        document.getElementById('datepicker').value = fechaFormateada;
+    var fechaActual = new Date();
+    var fechaFormateada = fechaActual.toISOString().split('T')[0];
+    document.getElementById('datepicker').value = fechaFormateada;
     </script> *@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

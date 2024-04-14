@@ -53,7 +53,7 @@ namespace ABM_inmobiliaria.Controllers
             return View();
         }
 
-          [HttpPost]
+        [HttpPost]
         public IActionResult Insertar(Contrato contrato)
         {
             try
