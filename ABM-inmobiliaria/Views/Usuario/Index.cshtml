@@ -42,7 +42,7 @@
                     <td>@usuario.Apellido</td>
                     <td>@usuario.Email</td>
                     <td> @(usuario.Rol == Roles.Administrador ? "Administrador" : "Empleado")</td>
-                    <td> <img src="@usuario.AvatarUrl" alt="avatar" style="width: 45px;"> </td>
+                    <td> <img src="@usuario.AvatarUrl" alt="avatar" style="width: 45px; height: 45px; border-radius: 50%;"> </td>
                     
                     <td>
                         <a asp-controller="Usuario" asp-action="Actualizar" asp-route-id="@usuario.Id"

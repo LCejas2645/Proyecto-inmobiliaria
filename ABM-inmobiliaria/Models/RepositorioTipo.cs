@@ -45,21 +45,5 @@ namespace ABM_inmobiliaria.Models
 
         }
 
-        public void InsertarTipo(Tipo tipo)
-        {
-            using (var connection = new MySqlConnection(ConnectionString))
-            {
-                string sql = @"INSERT INTO tipo (tipoInmueble)
-                VALUES (@tipoInmueble)";
-
-                using (var command = new MySqlCommand(sql, connection))
-                {
-                    command.Parameters.AddWithValue("@tipoInmueble", tipo.TipoInmueble);
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                }
-            }
-        }
-
     }
 }

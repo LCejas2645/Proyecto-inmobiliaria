@@ -67,7 +67,8 @@ namespace ABM_inmobiliaria.Controllers
             new Claim(ClaimTypes.Name, usuario.Nombre),
               new Claim(ClaimTypes.NameIdentifier, usuario.Id+""),
             new Claim(ClaimTypes.Email, usuario.Email),
-            new Claim(ClaimTypes.Role, usuario.Rol.ToString())
+            new Claim(ClaimTypes.Role, usuario.Rol.ToString()),
+             new Claim("AvatarUrl", usuario.AvatarUrl) // Agrego la URL de la imagen como una claim personalizada
         };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -107,6 +108,19 @@ namespace ABM_inmobiliaria.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (string.IsNullOrEmpty(usuario.Password))
+                {
+                    ModelState.AddModelError("Password", "La contraseña es requerida.");
+                    return View(usuario);
+                }
+
+                if (!usuario.Password.Equals(usuario.ConfirmPassword))
+                {
+                    ModelState.AddModelError("Password", "Las contraseñas no coinciden.");
+                    ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden.");
+                    return View(usuario);
+                }
+
                 try
                 {
                     // Generar el hash de la contraseña del usuario concatenando el pepper
@@ -168,36 +182,34 @@ namespace ABM_inmobiliaria.Controllers
         [HttpPost]
         public IActionResult Perfil(Usuario usuarioModificado)
         {
-            try
+            //obtengo el usuario completo
+            var userEmailClaim = User.FindFirst(ClaimTypes.Email);//Obtengo el usuario que inicio sesion desde la claim 
+            if (userEmailClaim == null)
             {
-                Console.WriteLine("Usuario modificado: "+usuarioModificado.Nombre, usuarioModificado.Apellido, usuarioModificado.Email);
-                Console.WriteLine("Desde Post perfil Model estate no es valido");
-                if (ModelState.IsValid)
+                return View("Login");
+            }
+            var usuario = rp.GetUsuarioEmail(userEmailClaim.Value); //Obtengo el usuario de la bd
+            usuarioModificado.Rol = usuario.Rol; //me aseguro que el rol no se cambie desde el front
+            usuarioModificado.Password = usuario.Password;
+            usuarioModificado.Id = usuario.Id;
+
+            if (ModelState.IsValid)
+            {
+                try
                 {
-                    Console.WriteLine("Desde Post perfil");
-                    Console.WriteLine("Usuario modificado: "+usuarioModificado.Nombre, usuarioModificado.Apellido, usuarioModificado.Email);
-                    //obtengo el usuario completo
-                    var userEmailClaim = User.FindFirst(ClaimTypes.Email);//Obtengo el usuario que inicio sesion desde la claim 
-                    if (userEmailClaim == null)
-                    {
-                        return View("Login");
-                    }
-                    var usuario = rp.GetUsuarioEmail(userEmailClaim.Value); //Obtengo el usuario de la bd
-                    Console.WriteLine("Usuario bd: "+usuario.Nombre, usuario.Apellido, usuario.Email);
-                    usuarioModificado.Rol = usuario.Rol; //me aseguro que el rol no se cambie desde el front
                     rp.ActualizarUsuario(usuarioModificado);
                     TempData["Mensaje"] = "El usuario se ha modificado correctamente.";
                     TempData["TipoMensaje"] = "success";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Home");
                 }
-                return View(usuarioModificado);
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error al actualizar al usuario");
+                    return RedirectToAction("Error");
+                }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Desde Post perfil, Error en la bd");
-                _logger.LogError(ex, "Error al actualizar al usuario");
-                return RedirectToAction("Error");
-            }
+            usuarioModificado.Password = ""; //en caso de que devuelva la vista
+            return View(usuarioModificado);
         }
 
         //AVATAR===================================================================

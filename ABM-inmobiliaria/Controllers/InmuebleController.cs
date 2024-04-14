@@ -114,17 +114,6 @@ namespace ABM_inmobiliaria.Controllers
             }
         }
 
-
-
-        public IActionResult Prueba()
-        {
-            RepositorioInmueble ri = new RepositorioInmueble();
-            var inmueble = ri.GetInmueble(9);
-            return View(inmueble);
-        }
-
-
-
         [Authorize(Roles = "Administrador")]
         public IActionResult Eliminar(int id)
         {
