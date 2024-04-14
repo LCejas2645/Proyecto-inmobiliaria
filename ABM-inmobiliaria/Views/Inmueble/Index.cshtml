@@ -56,9 +56,15 @@
                         <a asp-controller="Inmueble" asp-action="Actualizar" asp-route-id="@Inmueble.Id"
                             class="btn btn-primary btn-sm boton" style="width: 80px;">Modificar</a>
 
-                        <a asp-controller="Inmueble" asp-action="Eliminar" asp-route-id="@Inmueble.Id"
+                        @*Oculto el eliminar para empleados*@
+                        @if (User.IsInRole("Administrador"))
+                        {
+                           <a asp-controller="Inmueble" asp-action="Eliminar" asp-route-id="@Inmueble.Id"
                             class="btn btn-danger btn-sm boton" style="width: 80px;"
-                            onclick="return confirm('¿Estás seguro de que deseas eliminar esta persona?')">Eliminar</a>
+                            onclick="return confirm('¿Estás seguro de que deseas eliminar este inmueble?')">Eliminar</a>
+                        }
+
+                        
                     </td>
                 </tr>
 
@@ -73,16 +79,16 @@
                             </div>
 
                             <div class="modal-body">
-                                    <p><strong>Propietario:</strong> @Inmueble.Propietario.ToString()</p>
-                                    <p><strong>Dirección:</strong> @Inmueble.Direccion</p>
-                                    <p><strong>Cantidad de Ambientes:</strong> @Inmueble.Ambientes</p>
-                                    <p><strong>Superficie:</strong> @Inmueble.Superficie</p>
-                                    <p><strong>Latitud:</strong> @Inmueble.Latitud</p>
-                                    <p><strong>Longitud:</strong> @Inmueble.Longitud</p>
-                                    <p><strong>Estado:</strong> @(Inmueble.Disponible ? "Disponible" : "No Disponible")</p>
-                                    <p><strong>Tipo:</strong> @Inmueble.Tipo.ToString()</p>
-                                    <p><strong>Uso:</strong> @Inmueble.Uso</p>
-                                    <p><strong>Precio:</strong> @Inmueble.Precio</p>
+                                <p><strong>Propietario:</strong> @Inmueble.Propietario.ToString()</p>
+                                <p><strong>Dirección:</strong> @Inmueble.Direccion</p>
+                                <p><strong>Cantidad de Ambientes:</strong> @Inmueble.Ambientes</p>
+                                <p><strong>Superficie:</strong> @Inmueble.Superficie</p>
+                                <p><strong>Latitud:</strong> @Inmueble.Latitud</p>
+                                <p><strong>Longitud:</strong> @Inmueble.Longitud</p>
+                                <p><strong>Estado:</strong> @(Inmueble.Disponible ? "Disponible" : "No Disponible")</p>
+                                <p><strong>Tipo:</strong> @Inmueble.Tipo.ToString()</p>
+                                <p><strong>Uso:</strong> @Inmueble.Uso</p>
+                                <p><strong>Precio:</strong> @Inmueble.Precio</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -94,4 +100,3 @@
         </tbody>
     </table>
 </div>
-

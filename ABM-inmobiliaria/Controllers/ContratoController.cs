@@ -7,6 +7,8 @@ using ABM_inmobiliaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 //using ZstdSharp.Unsafe;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ABM_inmobiliaria.Controllers
 {
@@ -18,8 +20,7 @@ namespace ABM_inmobiliaria.Controllers
         private RepositorioTipo rt = new RepositorioTipo();
         private RepositorioInquilino ri = new RepositorioInquilino();
         private RepositorioInmueble rinm = new RepositorioInmueble();
-
-        //private RepositorioUsuario ru = new RepositorioUsuario();
+        private RepositorioUsuario ru = new RepositorioUsuario();
 
 
 
@@ -31,6 +32,7 @@ namespace ABM_inmobiliaria.Controllers
 
 
 
+        [Authorize]
         public IActionResult Index()
         {
             try
@@ -45,6 +47,7 @@ namespace ABM_inmobiliaria.Controllers
             }
         }
 
+        [Authorize]
         public IActionResult Insertar()
         {
             ViewBag.Propietarios = rp.GetPropietarios();
@@ -53,6 +56,7 @@ namespace ABM_inmobiliaria.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Insertar(Contrato contrato)
         {
@@ -65,13 +69,13 @@ namespace ABM_inmobiliaria.Controllers
                 }
 
                 // Verificar si el inmueble está ocupado en otro contrato entre las fechas proporcionadas
-                bool inmuebleOcupado = rc.InmuebleOcupadoEnOtroContrato(contrato.idInmueble, contrato.FechaInicio, contrato.Id);
+                bool inmuebleOcupado = rc.InmuebleOcupadoEnOtroContrato(contrato.IdInmueble, contrato.FechaInicio, contrato.Id);
                 if (inmuebleOcupado)
                 {
                     throw new ArgumentException("Error: El inmueble ya está ocupado en otro contrato durante las fechas proporcionadas.");
                 }
 
-                contrato.Inmueble = rinm.GetInmueble(contrato.idInmueble);
+                contrato.Inmueble = rinm.GetInmueble(contrato.IdInmueble);
 
                 //Verificar que el inmueble este disponible
                 if (contrato.Inmueble != null && !contrato.Inmueble.Disponible)
@@ -83,6 +87,15 @@ namespace ABM_inmobiliaria.Controllers
                 // Si no hay errores, insertar el contrato
                 if (ModelState.IsValid)
                 {
+                    //Obtengo el propietario perteneciente al inmueble
+                    contrato.IdPropietario = contrato.Inmueble.IdPropietario;
+                    //Obtengo el usuario que realizo el contrato
+                    if (User.Identity.IsAuthenticated)
+                    {
+                        var usuario = ru.GetUsuarioEmail(User.FindFirst(ClaimTypes.Email).Value); ///Obtengo el usuario que inicio sesion desde la claim 
+                        contrato.Usuario = usuario;
+                        contrato.IdUsuario=usuario.Id;
+                    }
                     rc.InsertarContrato(contrato);
                     TempData["Mensaje"] = "El contrato se ha creado correctamente.";
                     TempData["TipoMensaje"] = "success";
@@ -105,7 +118,7 @@ namespace ABM_inmobiliaria.Controllers
 
                 return RedirectToAction("index");
             }
-             catch (Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al insertar el contrato");
                 return RedirectToAction("Error");
@@ -113,6 +126,7 @@ namespace ABM_inmobiliaria.Controllers
         }
 
 
+        [Authorize]
         public IActionResult Actualizar(int id)
         {
             var contrato = rc.GetContrato(id);
@@ -126,6 +140,7 @@ namespace ABM_inmobiliaria.Controllers
             return View(contrato);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Actualizar(Contrato contrato)
         {
@@ -138,13 +153,13 @@ namespace ABM_inmobiliaria.Controllers
                 }
 
                 // Verificar si el inmueble está ocupado en otro contrato entre las fechas proporcionadas
-                bool inmuebleOcupado = rc.InmuebleOcupadoEnOtroContrato(contrato.idInmueble, contrato.FechaInicio,contrato.Id);
+                bool inmuebleOcupado = rc.InmuebleOcupadoEnOtroContrato(contrato.IdInmueble, contrato.FechaInicio, contrato.Id);
                 if (inmuebleOcupado)
                 {
                     throw new ArgumentException("Error: El inmueble ya está ocupado en otro contrato durante las fechas proporcionadas.");
                 }
 
-                contrato.Inmueble = rinm.GetInmueble(contrato.idInmueble);
+                contrato.Inmueble = rinm.GetInmueble(contrato.IdInmueble);
 
                 //Verificar que el inmueble este disponible
                 if (contrato.Inmueble != null && !contrato.Inmueble.Disponible)
@@ -154,6 +169,8 @@ namespace ABM_inmobiliaria.Controllers
 
                 if (ModelState.IsValid)
                 {
+                     //Obtengo el propietario perteneciente al inmueble
+                    contrato.IdPropietario = contrato.Inmueble.IdPropietario;
                     rc.ActualizarContrato(contrato);
                     TempData["Mensaje"] = "El contrato se ha actualizado correctamente.";
                     TempData["TipoMensaje"] = "success";
@@ -180,6 +197,7 @@ namespace ABM_inmobiliaria.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult Eliminar(int id)
         {
             try

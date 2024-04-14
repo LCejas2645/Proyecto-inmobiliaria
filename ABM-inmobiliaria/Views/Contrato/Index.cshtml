@@ -46,20 +46,25 @@
                     <td>@Contrato.Propietario.ToString()</td>
                     <td>@Contrato.FechaInicio.ToShortDateString()</td>
                     <td>@Contrato.FechaFin.ToShortDateString()</td>
-                    <td>@Contrato.Vigente</td>
+                    <td>@(Contrato.Vigente ? "Si" : "No")</td>
                     <td>@Contrato.MontoMensual</td>
 
                     <td>
-                        <button class="btn btn-info btn-sm boton" style="width: 100px;" data-bs-toggle="modal"
+                        <button class="btn btn-info btn-sm boton" style="width: 80px;" data-bs-toggle="modal"
                             data-bs-target="#modalDetalles_@(Contrato.Id)">
                             Detalles
                         </button>
                         <a asp-controller="Contrato" asp-action="Actualizar" asp-route-id="@Contrato.Id"
-                            class="btn btn-primary btn-sm">Modificar</a>
+                            class="btn btn-primary btn-sm" style="width: 80px;">Modificar</a>
 
-                        <a asp-controller="Contrato" asp-action="Eliminar" asp-route-id="@Contrato.Id"
-                            class="btn btn-danger btn-sm"
-                            onclick="return confirm('¿Estás seguro de que deseas eliminar esta persona?')">Eliminar</a>
+                        @*Oculto el eliminar para empleados*@
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <a asp-controller="Contrato" asp-action="Eliminar" asp-route-id="@Contrato.Id"
+                            class="btn btn-danger btn-sm" style="width: 80px;"
+                            onclick="return confirm('¿Estás seguro de que deseas eliminar este contrato?')">Eliminar</a>
+                        }
+                        
                     </td>
                 </tr>
                 <!-- Modal para detalles del Contrato -->
@@ -80,9 +85,11 @@
                                     <p><strong>Datos del inmueble: </strong> @Contrato.Inmueble.ToString()</p>
                                     <p> <strong>Fecha de inicio: </strong>@Contrato.FechaInicio.ToShortDateString()</p>
                                     <p> <strong>Fecha de fin: </strong>@Contrato.FechaFin.ToShortDateString()</p>
-                                    <p> <strong>Vigente: </strong>@Contrato.Vigente </p>
+                                    <p> <strong>Vigente: </strong>@(Contrato.Vigente ? "Si" : "No") </p>
                                     <p><strong>Monto mensual: </strong>@Contrato.MontoMensual</p>
-
+                                    @if (User.IsInRole("Administrador")){
+                                        <p><strong>Contrato creado por: </strong>@Contrato.Usuario.Nombre @Contrato.Usuario.Apellido</p>
+                                    }
                                 </div>
                             </div>
                             <div class="modal-footer">

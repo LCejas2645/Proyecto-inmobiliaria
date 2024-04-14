@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<Inquilino>
-@{  
+@{
     ViewData["Title"] = "Inquilino";
 }
 
@@ -44,11 +44,16 @@
                     <td>@Inquilino.Email</td>
                     <td>
                         <a asp-controller="Inquilino" asp-action="Insertar" asp-route-id="@Inquilino.Id"
-                            class="btn btn-primary btn-sm">Modificar</a>
+                            class="btn btn-primary btn-sm"  style="width: 100px;">Modificar</a>
 
-                        <a asp-controller="Inquilino" asp-action="Eliminar" asp-route-id="@Inquilino.Id"
-                            class="btn btn-danger btn-sm"
+                        @*Oculto el eliminar para empleados*@
+                        @if (User.IsInRole("Administrador"))
+                        {
+                            <a asp-controller="Inquilino" asp-action="Eliminar" asp-route-id="@Inquilino.Id"
+                            class="btn btn-danger btn-sm"  style="width: 100px;"
                             onclick="return confirm('¿Estás seguro de que deseas eliminar esta persona?')">Eliminar</a>
+                        }
+                       
                     </td>
                 </tr>
             }

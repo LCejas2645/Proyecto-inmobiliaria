@@ -21,13 +21,15 @@ namespace ABM_inmobiliaria.Models
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = @"SELECT c.Id, idInmueble, idInquilino, c.idPropietario, vigente, montoMensual, fechaInicio, fechaFin,
-                                i.nombre AS nombreInquilino,i.apellido AS apellidoInquilino,
-                                p.nombre AS nombrePropietario, p.apellido AS apellidoPropietario,
-                                inm.direccion AS direccionInmueble, inm.ambientes AS ambientes
-                            FROM contrato c INNER JOIN inquilino i ON c.idInquilino = i.id
-                                            INNER JOIN propietario p ON c.idPropietario = p.id
-                                            INNER JOIN inmueble inm ON c.idInmueble = inm.id";
+                var sql = @"SELECT c.Id, idInmueble, idInquilino, c.idPropietario, c.idUsuario, vigente, montoMensual, fechaInicio, fechaFin,
+                    i.nombre AS nombreInquilino, i.apellido AS apellidoInquilino,
+                    p.nombre AS nombrePropietario, p.apellido AS apellidoPropietario,
+                    u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario,
+                    inm.direccion AS direccionInmueble, inm.ambientes AS ambientes
+                FROM contrato c INNER JOIN inquilino i ON c.idInquilino = i.id
+                                INNER JOIN propietario p ON c.idPropietario = p.id
+                                INNER JOIN usuario u ON c.idUsuario = u.id
+                                INNER JOIN inmueble inm ON c.idInmueble = inm.id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -42,6 +44,7 @@ namespace ABM_inmobiliaria.Models
                                 Id = reader.GetInt32("Id"),
                                 FechaFin = reader.GetDateTime("fechaFin"),
                                 FechaInicio = reader.GetDateTime("fechaInicio"),
+                                IdUsuario = reader.GetInt32("idUsuario"),
                                 Inquilino = new Inquilino
                                 {
                                     Id = reader.GetInt32("idInquilino"),
@@ -60,6 +63,13 @@ namespace ABM_inmobiliaria.Models
                                     Direccion = reader.GetString("direccionInmueble"),
                                     Ambientes = reader.GetInt32("ambientes")
                                 },
+                                Usuario = new Usuario
+                                {
+                                    Id = reader.GetInt32("idUsuario"),
+                                    Nombre = reader.GetString("nombreUsuario"),
+                                    Apellido = reader.GetString("apellidoUsuario")
+                                },
+
                                 Vigente = reader.GetBoolean("vigente"),
                                 MontoMensual = reader.GetDouble("montoMensual")
                             };
@@ -76,17 +86,18 @@ namespace ABM_inmobiliaria.Models
         {
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                string sql = @"INSERT INTO contrato (idInquilino, idInmueble, idPropietario, fechaInicio, fechaFin,montoMensual)
-                VALUES (@IdInquilino, @IdInmueble, @IdPropietario, @FechaInicio, @FechaFin, @MontoMensual)";
+                string sql = @"INSERT INTO contrato (idInquilino, idInmueble, idPropietario, fechaInicio, fechaFin,montoMensual, idUsuario)
+                VALUES (@IdInquilino, @IdInmueble, @IdPropietario, @FechaInicio, @FechaFin, @MontoMensual, @IdUsuario)";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@IdPropietario", contrato.idPropietario);
-                    command.Parameters.AddWithValue("@IdInquilino", contrato.idInquilino);
-                    command.Parameters.AddWithValue("@IdInmueble", contrato.idInmueble);
+                    command.Parameters.AddWithValue("@IdPropietario", contrato.IdPropietario);
+                    command.Parameters.AddWithValue("@IdInquilino", contrato.IdInquilino);
+                    command.Parameters.AddWithValue("@IdInmueble", contrato.IdInmueble);
                     command.Parameters.AddWithValue("@FechaInicio", contrato.FechaInicio);
                     command.Parameters.AddWithValue("@FechaFin", contrato.FechaFin);
                     command.Parameters.AddWithValue("@MontoMensual", contrato.MontoMensual);
+                    command.Parameters.AddWithValue("@IdUsuario", contrato.IdUsuario);
 
 
                     connection.Open();
@@ -121,21 +132,21 @@ namespace ABM_inmobiliaria.Models
                                 Id = reader.GetInt32("Id"),
                                 FechaFin = reader.GetDateTime("fechaFin"),
                                 FechaInicio = reader.GetDateTime("fechaInicio"),
-                                idInquilino = reader.GetInt32("idInquilino"),
+                                IdInquilino = reader.GetInt32("idInquilino"),
                                 Inquilino = new Inquilino
                                 {
                                     Id = reader.GetInt32("idInquilino"),
                                     Nombre = reader.GetString("nombreInquilino"),
                                     Apellido = reader.GetString("apellidoInquilino"),
                                 },
-                                idPropietario = reader.GetInt32("idPropietario"),
+                                IdPropietario = reader.GetInt32("idPropietario"),
                                 Propietario = new Propietario
                                 {
                                     Id = reader.GetInt32("idPropietario"),
                                     Nombre = reader.GetString("nombrePropietario"),
                                     Apellido = reader.GetString("apellidoPropietario")
                                 },
-                                idInmueble = reader.GetInt32("idInmueble"),
+                                IdInmueble = reader.GetInt32("idInmueble"),
                                 Inmueble = new Inmueble
                                 {
                                     Id = reader.GetInt32("idInmueble"),
@@ -165,9 +176,9 @@ namespace ABM_inmobiliaria.Models
                 using (var command = new MySqlCommand(sql, connection))
                 {
 
-                    command.Parameters.AddWithValue("@idInquilino", contrato.idInquilino);
-                    command.Parameters.AddWithValue("@idInmueble", contrato.idInmueble);
-                    command.Parameters.AddWithValue("@idPropietario", contrato.idPropietario);
+                    command.Parameters.AddWithValue("@idInquilino", contrato.IdInquilino);
+                    command.Parameters.AddWithValue("@idInmueble", contrato.IdInmueble);
+                    command.Parameters.AddWithValue("@idPropietario", contrato.IdPropietario);
                     command.Parameters.AddWithValue("@fechaInicio", contrato.FechaInicio);
                     command.Parameters.AddWithValue("@fechaFin", contrato.FechaFin);
                     command.Parameters.AddWithValue("@montoMensual", contrato.MontoMensual);

@@ -1,0 +1,34 @@
+﻿@model ABM_inmobiliaria.Models.Usuario
+
+@{
+    ViewData["Title"] = "Cargar Avatar";
+}
+
+<div class="container">
+    <div class="row justify-content-center form-group">
+        <div class="col-md-6">
+            <form asp-action="CargarAvatar" method="post" enctype="multipart/form-data">
+
+                <div class="form-group">
+                    <label asp-for="AvatarFile" class="control-label mb-3">Seleccionar Avatar</label>
+                    <input asp-for="AvatarFile" class="form-control mb-3" type="file" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Cargar Avatar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*
+<form>
+<div class="form-group">
+<div class="custom-file">
+<input type="file" class="custom-file-input" id="avatar">
+<label class="custom-file-label" for="avatar">Seleccionar Nuevo Avatar</label>
+</div>
+</div>
+<button type="submit" class="btn btn-primary">Guardar Cambios</button>
+</form>
+
+*@

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ABM_inmobiliaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ABM_inmobiliaria.Controllers
 {
@@ -19,6 +20,7 @@ namespace ABM_inmobiliaria.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             try
@@ -34,6 +36,7 @@ namespace ABM_inmobiliaria.Controllers
 
         }
 
+        [Authorize]
         public IActionResult Insertar(int? id)
         {
             if (id != null)
@@ -51,6 +54,7 @@ namespace ABM_inmobiliaria.Controllers
             return View(nuevoInquilino);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Insertar(Inquilino inquilino)
         {
@@ -79,11 +83,12 @@ namespace ABM_inmobiliaria.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al insertar o actualizar al inquilino");
-                return RedirectToAction("Error");
+                return RedirectToAction("index");
             }
         }
 
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult Eliminar(int id)
         {
             try
@@ -96,7 +101,7 @@ namespace ABM_inmobiliaria.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al eliminar al inquilino");
-                return RedirectToAction("Error");
+                return RedirectToAction("index");
             }
         }
 

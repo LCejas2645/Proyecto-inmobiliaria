@@ -1,8 +1,7 @@
-﻿@model IEnumerable<Propietario>
+﻿@model IEnumerable<Usuario>
 @{
-    ViewData["Title"] = "Propietario";
+    ViewData["Title"] = "Usuario";
 }
-
 
 @if (TempData["Mensaje"] != null)
 {
@@ -15,9 +14,10 @@
     </div>
 }
 
+
 <div class="container mt-5">
-    <h1 class="mb-4">ABM de Propietario</h1>
-    <a asp-controller="Propietario" asp-action="Insertar" class="btn btn-success mb-3">Agregar Propietario</a>
+    <h1 class="mb-4">Usuarios</h1>
+    <a asp-controller="Usuario" asp-action="Insertar" class="btn btn-success mb-3">Agregar nuevo usuario</a>
 
 
     <table id="miTabla" class="table">
@@ -26,33 +26,31 @@
                 @* <th>Id</th> *@
                 <th>Nombre</th>
                 <th>Apellido</th>
-                <th>Documento</th>
-                <th>Teléfono</th>
                 <th>Email</th>
+                <th>Rol</th>
+                <th>Avatar</th>
+               
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var Propietario in Model)
+            @foreach (var usuario in Model)
             {
                 <tr>
-                    @* <td style="display: none;">@Propietario.Id</td> *@
-                    <td>@Propietario.Nombre</td>
-                    <td>@Propietario.Apellido</td>
-                    <td>@Propietario.Dni</td>
-                    <td>@Propietario.Telefono</td>
-                    <td>@Propietario.Email</td>
+                    @* <td style="display: none;">@Usuario.Id</td> *@
+                    <td>@usuario.Nombre</td>
+                    <td>@usuario.Apellido</td>
+                    <td>@usuario.Email</td>
+                    <td> @(usuario.Rol == Roles.Administrador ? "Administrador" : "Empleado")</td>
+                    <td> <img src="@usuario.AvatarUrl" alt="avatar" style="width: 45px;"> </td>
+                    
                     <td>
-                        <a asp-controller="Propietario" asp-action="Insertar" asp-route-id="@Propietario.Id"
+                        <a asp-controller="Usuario" asp-action="Actualizar" asp-route-id="@usuario.Id"
                             class="btn btn-primary btn-sm"  style="width: 100px;">Modificar</a>
 
-                        @*Oculto el eliminar para empleados*@
-                        @if (User.IsInRole("Administrador"))
-                        {
-                           <a asp-controller="Propietario" asp-action="Eliminar" asp-route-id="@Propietario.Id"
+                           <a asp-controller="Usuario" asp-action="Eliminar" asp-route-id="@usuario.Id"
                             class="btn btn-danger btn-sm "  style="width: 100px;"
                             onclick="return confirm('¿Estás seguro de que deseas eliminar esta persona?')">Eliminar</a>
-                        }
                         
                     </td>
                 </tr>
