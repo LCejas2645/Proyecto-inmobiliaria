@@ -109,7 +109,7 @@ namespace ABM_inmobiliaria.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al insertar o actualizar al inquilino");
+                _logger.LogError(ex, "Error al actualizar el inmueble");
                 return RedirectToAction("Error");
             }
         }

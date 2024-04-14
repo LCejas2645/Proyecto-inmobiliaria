@@ -138,11 +138,48 @@ namespace ABM_inmobiliaria.Controllers
             return View(usuario);
         }
 
-
-        public IActionResult Actualizar()
+        [Authorize(Roles = "Administrador")]
+        public IActionResult Actualizar(int id)
         {
+            var usuario = rp.GetUsuario(id);
+            if (usuario != null)
+            {
+                return View(usuario);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize(Roles = "Administrador")]
+        [HttpPost]
+        public IActionResult Actualizar(Usuario usuario)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(usuario.Nombre) ||
+                        string.IsNullOrEmpty(usuario.Apellido) ||
+                        string.IsNullOrEmpty(usuario.Email))
+                    {
+                        ModelState.AddModelError("", "Por favor, complete todos los campos.");
+                        return View(usuario);
+                    }
+                    rp.ActualizarUsuario(usuario);
+                    TempData["Mensaje"] = "El usuario se ha actualizado correctamente.";
+                    TempData["TipoMensaje"] = "success";
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error al actualizar el usuario");
+                    return View();
+                }
+
+            }
+            Console.WriteLine("Error en model state");
             return View();
         }
+
 
 
         [Authorize(Roles = "Administrador")]
@@ -180,16 +217,16 @@ namespace ABM_inmobiliaria.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Perfil(Usuario usuarioModificado)
+        public async Task<IActionResult> Perfil(Usuario usuarioModificado)
         {
-            //obtengo el usuario completo
-            var userEmailClaim = User.FindFirst(ClaimTypes.Email);//Obtengo el usuario que inicio sesion desde la claim 
+            // Obtener el usuario completo
+            var userEmailClaim = User.FindFirst(ClaimTypes.Email); // Obtengo el usuario que inició sesión desde la claim 
             if (userEmailClaim == null)
             {
                 return View("Login");
             }
-            var usuario = rp.GetUsuarioEmail(userEmailClaim.Value); //Obtengo el usuario de la bd
-            usuarioModificado.Rol = usuario.Rol; //me aseguro que el rol no se cambie desde el front
+            var usuario = rp.GetUsuarioEmail(userEmailClaim.Value); // Obtengo el usuario de la BD
+            usuarioModificado.Rol = usuario.Rol; // Me aseguro de que el rol no se cambie desde el front
             usuarioModificado.Password = usuario.Password;
             usuarioModificado.Id = usuario.Id;
 
@@ -197,18 +234,32 @@ namespace ABM_inmobiliaria.Controllers
             {
                 try
                 {
+                    if (string.IsNullOrEmpty(usuarioModificado.Nombre) ||
+                        string.IsNullOrEmpty(usuarioModificado.Apellido) ||
+                        string.IsNullOrEmpty(usuarioModificado.Email))
+                    {
+                        ModelState.AddModelError("", "Por favor, complete todos los campos.");
+                        return View(usuarioModificado);
+                    }
                     rp.ActualizarUsuario(usuarioModificado);
                     TempData["Mensaje"] = "El usuario se ha modificado correctamente.";
                     TempData["TipoMensaje"] = "success";
+
+                    // Obtengo el nuevo nombre de usuario desde UsuarioModificado
+                    var nuevoNombreUsuario = usuarioModificado.Nombre;
+
+                    // Llamo al método para actualizar la claim Name
+                    await ActualizarClaim(ClaimTypes.Name, nuevoNombreUsuario);
+
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Error al actualizar al usuario");
-                    return RedirectToAction("Error");
+                    return RedirectToAction("Index", "Home");
                 }
             }
-            usuarioModificado.Password = ""; //en caso de que devuelva la vista
+            usuarioModificado.Password = ""; // En caso de que devuelva la vista
             return View(usuarioModificado);
         }
 
@@ -245,15 +296,58 @@ namespace ABM_inmobiliaria.Controllers
                     await usuario.AvatarFile.CopyToAsync(fileStream);
                 }
 
-                usuario.AvatarUrl = "/uploads/" + uniqueFileName; // Aquí se incluye la extensión del archivo en la URL
+                usuario.AvatarUrl = "/uploads/" + uniqueFileName; // extensión del archivo en la URL
 
-                // Obtener el ID del usuario actualmente autenticado
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                // Actualizar la URL del avatar en la base de datos del usuario actual
-                rp.ActualizarAvatar(int.Parse(userId), usuario.AvatarUrl);
+                //Verfico si vino desde el form actualizar usuarios
+                if (usuario.Id != null && usuario.Id > 0)
+                {
+                    rp.ActualizarAvatar(usuario.Id, usuario.AvatarUrl);
+                    TempData["Mensaje"] = "Se modifico correctamente el avatar.";
+                    TempData["TipoMensaje"] = "success";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // id del usuario autenticado
+
+                    rp.ActualizarAvatar(int.Parse(userId), usuario.AvatarUrl); // Actualizar la URL del avatar en la base de datos del usuario actual
+
+                    // Llamar al método para actualizar la claim AvatarUrl con el nuevo valor
+                    await ActualizarClaim("AvatarUrl", usuario.AvatarUrl);
+                }
+
+                TempData["Mensaje"] = "Se modifico correctamente el avatar.";
+                TempData["TipoMensaje"] = "success";
+
+
             }
 
+            return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> EliminarAvatar(Usuario usuario)
+        {
+
+            Console.WriteLine("Id desde eliminar Avatar" + usuario.Id);
+            if (usuario.Id != null && usuario.Id > 0)
+            {
+                rp.ActualizarAvatar(usuario.Id, "");
+                TempData["Mensaje"] = "Se eliminó correctamente el avatar.";
+                TempData["TipoMensaje"] = "success";
+                return RedirectToAction("Index");
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Obtener el ID del usuario autenticado
+            // Actualizar la URL del avatar en la bd para que sea vacía
+            rp.ActualizarAvatar(int.Parse(userId), "");
+
+            // Llamar al método para actualizar la claim AvatarUrl con el valor vacío
+            await ActualizarClaim("AvatarUrl", "");
+
+            TempData["Mensaje"] = "Se eliminó correctamente el avatar.";
+            TempData["TipoMensaje"] = "success";
             return RedirectToAction("Index", "Home");
         }
 
@@ -269,7 +363,7 @@ namespace ABM_inmobiliaria.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CambiarPassword(CambiarPassword password)
+        public IActionResult CambiarPassword(CambiarPassword password, Usuario usuarioId)
         {
             if (ModelState.IsValid)
             {
@@ -278,11 +372,11 @@ namespace ABM_inmobiliaria.Controllers
                 {
                     return View("Login");
                 }
-                var usuario = rp.GetUsuarioEmail(userEmailClaim.Value); //Obtengo el usuario de la bd
+                var usuarioAutenticado = rp.GetUsuarioEmail(userEmailClaim.Value); //Obtengo el usuario de la bd
                 password.PasswordActual = contraseñaHash(password.PasswordActual);// Generar el hash de la contraseña actual del form
 
 
-                if (!VerificarPassword(password.PasswordActual, usuario.Password))  // lógica para verificar la contraseña actual del usuario 
+                if (!VerificarPassword(password.PasswordActual, usuarioAutenticado.Password))  // lógica para verificar la contraseña actual del usuario 
                 {
                     ModelState.AddModelError("PasswordActual", "La contraseña actual es incorrecta.");
                     return View(password);
@@ -295,8 +389,8 @@ namespace ABM_inmobiliaria.Controllers
                     ModelState.AddModelError("ConfirmarPassword", "Las contraseñas no coinciden.");
                     return View(password);
                 }
-                usuario.Password = contraseñaHash(password.NuevaPassword);  //Genero el hash de la contraseña nueva
-                rp.ActualizarPassword(usuario);  //Guardo los cambios en la bd: 
+                usuarioAutenticado.Password = contraseñaHash(password.NuevaPassword);  //Genero el hash de la contraseña nueva
+                rp.ActualizarPassword(usuarioAutenticado);  //Guardo los cambios en la bd: 
                 return RedirectToAction("Index");  //Redirijo al index
             }
             return View(password);   //se vuelve a mostrar el formulario con los errores
@@ -331,6 +425,26 @@ namespace ABM_inmobiliaria.Controllers
             // Generar el hash de la contraseña del usuario concatenando el pepper
             string passwordHash = HashPassword(contraseña + pepper);
             return passwordHash.Substring(0, hashLength);
+        }
+
+        //Método para actualizar las claims para cuando hago algun cambio en actualizar
+        private async Task ActualizarClaim(string claimType, string claimValue)
+        {
+            // Obtener las claims existentes del usuario
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+
+            // Buscar la claim existente y eliminarla si se encuentra
+            var existingClaim = claimsIdentity.FindFirst(claimType);
+            if (existingClaim != null)
+            {
+                claimsIdentity.RemoveClaim(existingClaim); // Eliminar la claim existente
+            }
+
+            // Agregar la nueva claim con el valor actualizado
+            claimsIdentity.AddClaim(new Claim(claimType, claimValue));
+
+            // Actualizar la cookie de autenticación con la identidad actualizada
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
         }
     }
 }
