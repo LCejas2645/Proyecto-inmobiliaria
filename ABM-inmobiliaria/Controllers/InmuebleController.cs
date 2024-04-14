@@ -7,6 +7,7 @@ using ABM_inmobiliaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ZstdSharp.Unsafe;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ABM_inmobiliaria.Controllers
 {
@@ -25,6 +26,7 @@ namespace ABM_inmobiliaria.Controllers
 
 
 
+         [Authorize]
         public IActionResult Index()
         {
             try
@@ -41,7 +43,7 @@ namespace ABM_inmobiliaria.Controllers
         }
 
 
-
+        [Authorize]
         public IActionResult Insertar()
         {
             ViewBag.Propietarios = rp.GetPropietarios();
@@ -49,6 +51,7 @@ namespace ABM_inmobiliaria.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Insertar(Inmueble inmueble)
         {
@@ -73,6 +76,8 @@ namespace ABM_inmobiliaria.Controllers
 
         }
 
+
+        [Authorize]
         public IActionResult Actualizar(int id)
         {
             var inmueble = ri.GetInmueble(id);
@@ -85,6 +90,7 @@ namespace ABM_inmobiliaria.Controllers
             return View(inmueble);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Actualizar(Inmueble inmueble)
         {
@@ -119,7 +125,7 @@ namespace ABM_inmobiliaria.Controllers
 
 
 
-
+        [Authorize(Roles = "Administrador")]
         public IActionResult Eliminar(int id)
         {
             try

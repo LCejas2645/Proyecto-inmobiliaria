@@ -1,0 +1,110 @@
+﻿@model ABM_inmobiliaria.Models.Usuario
+
+@{
+    ViewData["Title"] = "Insertar Usuario";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .form-login {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        /* Hacer que el botón ocupe el ancho de los inputs */
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    /* Estilo para alinear el botón a la derecha */
+    .align-right {
+        margin-left: auto;
+    }
+</style>
+
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h3 class="mb-4 font-weight-bold text-primary">Insertar un nuevo usuario</h3>
+            <form asp-controller="Usuario" asp-action="Insertar" method="post" class="form-login">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Nombre" class="control-label">Nombre</label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Apellido" class="control-label">Apellido</label>
+                    <input asp-for="Apellido" class="form-control" />
+                    <span asp-validation-for="Apellido" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label">Email</label>
+                    <input asp-for="Email" class="form-control" type="email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password" class="control-label">Contraseña</label>
+                    <input asp-for="Password" class="form-control" type="password" id="password"  />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Repetir Contraseña:</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+                    <span id="passwordError" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Rol:</label>
+                    <select class="form-control" name="Rol">
+                        <option value="Administrador">Administrador</option>
+                        <option value="Empleado">Empleado</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+                    <a asp-controller="Usuario" asp-action="Index" class="btn btn-danger mt-3 align-right">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@*Script para verificar que las contraseñas sean iguales*@
+<script>
+    document.getElementById("confirmPassword").addEventListener("keyup", function () {
+        var password = document.getElementById("password").value;
+        var confirmPassword = this.value;
+        var passwordError = document.getElementById("passwordError");
+
+        if (password !== confirmPassword) {
+            passwordError.textContent = "Las contraseñas no coinciden";
+        } else {
+            passwordError.textContent = "";
+        }
+    });
+</script>

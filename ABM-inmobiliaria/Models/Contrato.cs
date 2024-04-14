@@ -8,13 +8,14 @@ namespace ABM_inmobiliaria.Models
     public class Contrato
     {
         public int Id { get; set; }
-        public int idInquilino { get; set; }
+        public int IdInquilino { get; set; }
         public Inquilino? Inquilino { get; set; }
-        public int idPropietario { get; set; }
+        public int IdPropietario { get; set; }
         public Propietario? Propietario { get; set; }
-        public int idInmueble { get; set; }
+        public int IdInmueble { get; set; }
         public Inmueble? Inmueble { get; set; }
-        public Usuario? usuario {get;set;}
+        public int IdUsuario {get;set;}
+        public Usuario? Usuario {get;set;}
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public bool Vigente { get; set; }
