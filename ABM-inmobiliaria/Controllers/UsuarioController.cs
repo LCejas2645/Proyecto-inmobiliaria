@@ -157,13 +157,31 @@ namespace ABM_inmobiliaria.Controllers
             {
                 try
                 {
+                    //para cambio de contraseña
+                    if (!string.IsNullOrEmpty(usuario.Password))
+                    {
+                        if (!usuario.Password.Equals(usuario.ConfirmPassword))
+                        {
+                            ModelState.AddModelError("Password", "Las contraseñas no coinciden.");
+                            ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden.");
+
+                            return View(rp.GetUsuario(usuario.Id));
+                        }
+                        usuario.Password = contraseñaHash(usuario.Password);
+                        rp.ActualizarPassword(usuario);
+
+                        return RedirectToAction("index");
+                    }
+
+                    //Para datos personales
                     if (string.IsNullOrEmpty(usuario.Nombre) ||
-                        string.IsNullOrEmpty(usuario.Apellido) ||
-                        string.IsNullOrEmpty(usuario.Email))
+                       string.IsNullOrEmpty(usuario.Apellido) ||
+                       string.IsNullOrEmpty(usuario.Email))
                     {
                         ModelState.AddModelError("", "Por favor, complete todos los campos.");
-                        return View(usuario);
+                        return View(rp.GetUsuario(usuario.Id));
                     }
+
                     rp.ActualizarUsuario(usuario);
                     TempData["Mensaje"] = "El usuario se ha actualizado correctamente.";
                     TempData["TipoMensaje"] = "success";
@@ -239,7 +257,7 @@ namespace ABM_inmobiliaria.Controllers
                         string.IsNullOrEmpty(usuarioModificado.Email))
                     {
                         ModelState.AddModelError("", "Por favor, complete todos los campos.");
-                        return View(usuarioModificado);
+                        return View(usuario);
                     }
                     rp.ActualizarUsuario(usuarioModificado);
                     TempData["Mensaje"] = "El usuario se ha modificado correctamente.";
