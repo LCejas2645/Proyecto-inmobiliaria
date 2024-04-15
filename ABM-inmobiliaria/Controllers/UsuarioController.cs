@@ -162,6 +162,7 @@ namespace ABM_inmobiliaria.Controllers
                     {
                         if (!usuario.Password.Equals(usuario.ConfirmPassword))
                         {
+                            ModelState.AddModelError("", "Error al intentar cambiar la contraseña");
                             ModelState.AddModelError("Password", "Las contraseñas no coinciden.");
                             ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden.");
 
@@ -169,6 +170,9 @@ namespace ABM_inmobiliaria.Controllers
                         }
                         usuario.Password = contraseñaHash(usuario.Password);
                         rp.ActualizarPassword(usuario);
+
+                        TempData["Mensaje"] = "El usuario se ha actualizado correctamente.";
+                        TempData["TipoMensaje"] = "success";
 
                         return RedirectToAction("index");
                     }
@@ -213,7 +217,7 @@ namespace ABM_inmobiliaria.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al eliminar al usuario");
-                TempData["Mensaje"] = "SError al eliminar al usuario";
+                TempData["Mensaje"] = "Error al eliminar al usuario";
                 TempData["TipoMensaje"] = "error";
                 return RedirectToAction("index");
             }
@@ -409,7 +413,7 @@ namespace ABM_inmobiliaria.Controllers
                 }
                 usuarioAutenticado.Password = contraseñaHash(password.NuevaPassword);  //Genero el hash de la contraseña nueva
                 rp.ActualizarPassword(usuarioAutenticado);  //Guardo los cambios en la bd: 
-                return RedirectToAction("Index");  //Redirijo al index
+                return RedirectToAction("Index", "Home");  //Redirijo al index
             }
             return View(password);   //se vuelve a mostrar el formulario con los errores
         }
