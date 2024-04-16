@@ -61,5 +61,50 @@ namespace ABM_inmobiliaria.Models
             }
         }
 
+        public Tipo? GetTipo(int id)
+        {
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                var sql = @"SELECT tipoInmueble
+                            FROM tipo 
+                            WHERE Id = @Id";
+
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    connection.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Tipo
+                            {
+                               TipoInmueble = reader.GetString("tipoInmueble")
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public void ActualizarTipo(Tipo tipo)
+        {
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                string sql = @"UPDATE tipo SET tipoInmueble = @tipoInmueble
+                 WHERE Id = @Id";
+
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", tipo.Id);
+                    command.Parameters.AddWithValue("@tipoInmueble", tipo.TipoInmueble);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
     }
 }

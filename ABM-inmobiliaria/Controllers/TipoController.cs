@@ -54,6 +54,47 @@ namespace ABM_inmobiliaria.Controllers{
             }
 
         }
+
+        //[Authorize]
+        public IActionResult Actualizar(int id)
+        {
+            var tipo = rt.GetTipo(id);
+            if (tipo == null)
+            {
+                return NotFound();
+            }
+
+            return View(tipo);
+        }
+
+        [HttpPost]
+        public IActionResult Actualizar(Tipo tipo)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    rt.ActualizarTipo(tipo);
+                    TempData["Mensaje"] = "El tipo de inmueble se ha actualizado correctamente.";
+                    TempData["TipoMensaje"] = "success";
+                    return RedirectToAction("Index");
+                }
+                return View(tipo);
+            }
+            catch (ArgumentException ex)
+            {
+                TempData["Mensaje"] = ex.Message;
+                TempData["TipoMensaje"] = "error";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al actualizar el tipo de inmueble");
+                return RedirectToAction("Error");
+            }
+        }
     }
+
+
 
 }
