@@ -21,19 +21,19 @@ namespace ABM_inmobiliaria.Models
 
         public string? Email { get; set; }
 
-        [Required(ErrorMessage = "La contraseña es requerida.")]
+        
+       // [Required(ErrorMessage = "La contraseña es requerida.")]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
 
-        //para cuando cambio la contraseña
-        // public string? PasswordActual { get; set; }
+        public string? ConfirmPassword { get; set; }
 
-        public string AvatarUrl { get; set; } = "";
+        public string? AvatarUrl { get; set; } = "";
 
-        [DataType(DataType.Upload)]
-        [Display(Name = "Avatar")]
-        [BindNever]
-        public IFormFile AvatarFile { get; set; }
+        //[DataType(DataType.Upload)]
+        //[Display(Name = "Avatar")]
+        //[BindNever]
+        public IFormFile? AvatarFile { get; set; }
 
         public Roles Rol { get; set; }
 

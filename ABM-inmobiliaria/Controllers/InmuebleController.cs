@@ -109,21 +109,10 @@ namespace ABM_inmobiliaria.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al insertar o actualizar al inquilino");
+                _logger.LogError(ex, "Error al actualizar el inmueble");
                 return RedirectToAction("Error");
             }
         }
-
-
-
-        public IActionResult Prueba()
-        {
-            RepositorioInmueble ri = new RepositorioInmueble();
-            var inmueble = ri.GetInmueble(9);
-            return View(inmueble);
-        }
-
-
 
         [Authorize(Roles = "Administrador")]
         public IActionResult Eliminar(int id)
