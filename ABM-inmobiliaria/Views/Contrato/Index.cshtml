@@ -61,43 +61,60 @@
                         @if (User.IsInRole("Administrador"))
                         {
                             <a asp-controller="Contrato" asp-action="Eliminar" asp-route-id="@Contrato.Id"
-                            class="btn btn-danger btn-sm" style="width: 80px;"
-                            onclick="return confirm('¿Estás seguro de que deseas eliminar este contrato?')">Eliminar</a>
+                                class="btn btn-danger btn-sm" style="width: 80px;"
+                                onclick="return confirm('¿Estás seguro de que deseas eliminar este contrato?')">Eliminar</a>
                         }
-                        
+
                     </td>
                 </tr>
                 <!-- Modal para detalles del Contrato -->
                 <div class="modal fade" id="modalDetalles_@(Contrato.Id)" tabindex="-1"
                     aria-labelledby="modalDetallesLabel_@(Contrato.Id)" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                            <div class="modal-header">
+                            <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title" id="modalDetallesLabel_@Contrato.Id">Detalles del Contrato</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
 
                             <div class="modal-body">
-                                <div class="container">
-                                    <p><strong>Id: </strong>@Contrato.Id</p>
-                                    <p><strong>Propietario: </strong>@Contrato.Propietario.ToString()</p>
-                                    <p><strong> Inquilino: </strong> @Contrato.Inquilino.ToString()</p>
-                                    <p><strong>Datos del inmueble: </strong> @Contrato.Inmueble.ToString()</p>
-                                    <p> <strong>Fecha de inicio: </strong>@Contrato.FechaInicio.ToShortDateString()</p>
-                                    <p> <strong>Fecha de fin: </strong>@Contrato.FechaFin.ToShortDateString()</p>
-                                    <p> <strong>Vigente: </strong>@(Contrato.Vigente ? "Si" : "No") </p>
-                                    <p><strong>Monto mensual: </strong>@Contrato.MontoMensual</p>
-                                    @if (User.IsInRole("Administrador")){
-                                        <p><strong>Contrato creado por: </strong>@Contrato.Usuario.Nombre @Contrato.Usuario.Apellido</p>
-                                    }
+                                <div class="card">
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item"><strong>Id:</strong> @Contrato.Id</li>
+                                            <li class="list-group-item"><strong>Propietario:</strong>
+                                                @Contrato.Propietario.ToString()</li>
+                                            <li class="list-group-item"><strong>Inquilino:</strong>
+                                                @Contrato.Inquilino.ToString()</li>
+                                            <li class="list-group-item"><strong>Datos del inmueble:</strong>
+                                                @Contrato.Inmueble.ToString()</li>
+                                            <li class="list-group-item"><strong>Fecha de inicio:</strong>
+                                                @Contrato.FechaInicio.ToShortDateString()</li>
+                                            <li class="list-group-item"><strong>Fecha de fin:</strong>
+                                                @Contrato.FechaFin.ToShortDateString()</li>
+                                            <li class="list-group-item"><strong>Vigente:</strong> @(Contrato.Vigente ? "Si"
+                                            : "No")</li>
+                                            <li class="list-group-item"><strong>Monto mensual:</strong>
+                                                @Contrato.MontoMensual</li>
+                                        </ul>
+                                        @if (User.IsInRole("Administrador"))
+                                        {
+                                            <div class="card-footer">
+                                                <small class="text-muted"><strong>Contrato creado por:</strong>
+                                                    @Contrato.Usuario.Nombre @Contrato.Usuario.Apellido</small>
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                            <div class="modal-footer">
+                            <div class="modal-footer bg-light">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
             }
         </tbody>
     </table>

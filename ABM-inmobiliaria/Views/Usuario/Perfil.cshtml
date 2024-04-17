@@ -54,6 +54,8 @@
         <div class="col-md-6">
             <div class="form-login">
                 <h4 class="mb-4 lead  font-weight-bold text-primary">@Model.Nombre @Model.Apellido</h4>
+
+                
                 <form asp-controller="Usuario" asp-action="CargarAvatar" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <fieldset class="border p-2 mb-4">
