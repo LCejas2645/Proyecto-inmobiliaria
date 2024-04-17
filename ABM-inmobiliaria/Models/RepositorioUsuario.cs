@@ -117,8 +117,8 @@ namespace ABM_inmobiliaria.Models
         {
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = @"INSERT INTO usuario(Nombre, Apellido, Email, Password, Rol)
-                    VALUES (@Nombre, @Apellido, @Email, @Password, @Rol)";
+                var sql = @"INSERT INTO usuario(Nombre, Apellido, Email, Password, Rol, AvatarUrl)
+                    VALUES (@Nombre, @Apellido, @Email, @Password, @Rol, @AvatarUrl)";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -127,6 +127,7 @@ namespace ABM_inmobiliaria.Models
                     command.Parameters.AddWithValue("@Email", usuario.Email);
                     command.Parameters.AddWithValue("@Password", usuario.Password);
                     command.Parameters.AddWithValue("@Rol", (int)usuario.Rol); // Conversión de Roles a entero
+                    command.Parameters.AddWithValue("@AvatarUrl", usuario.AvatarUrl);
 
                     connection.Open();
                     command.ExecuteNonQuery();

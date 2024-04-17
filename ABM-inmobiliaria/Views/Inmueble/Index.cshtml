@@ -59,43 +59,56 @@
                         @*Oculto el eliminar para empleados*@
                         @if (User.IsInRole("Administrador"))
                         {
-                           <a asp-controller="Inmueble" asp-action="Eliminar" asp-route-id="@Inmueble.Id"
-                            class="btn btn-danger btn-sm boton" style="width: 80px;"
-                            onclick="return confirm('¿Estás seguro de que deseas eliminar este inmueble?')">Eliminar</a>
+                            <a asp-controller="Inmueble" asp-action="Eliminar" asp-route-id="@Inmueble.Id"
+                                class="btn btn-danger btn-sm boton" style="width: 80px;"
+                                onclick="return confirm('¿Estás seguro de que deseas eliminar este inmueble?')">Eliminar</a>
                         }
 
-                        
+
                     </td>
                 </tr>
 
-                <!-- Modal para detalles del inmueble QUE ROMPISTEEEE(? ) -->
+                <!-- Modal para detalles del inmueble -->
                 <div class="modal fade" id="modalDetalles_@Inmueble.Id" tabindex="-1"
                     aria-labelledby="modalDetallesLabel_@Inmueble.Id" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
-                            <div class="modal-header">
+                            <div class="modal-header bg-primary text-white">
                                 <h5 class="modal-title" id="modalDetallesLabel_@Inmueble.Id">Detalles del Inmueble</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
 
                             <div class="modal-body">
-                                <p><strong>Propietario:</strong> @Inmueble.Propietario.ToString()</p>
-                                <p><strong>Dirección:</strong> @Inmueble.Direccion</p>
-                                <p><strong>Cantidad de Ambientes:</strong> @Inmueble.Ambientes</p>
-                                <p><strong>Superficie:</strong> @Inmueble.Superficie</p>
-                                <p><strong>Latitud:</strong> @Inmueble.Latitud</p>
-                                <p><strong>Longitud:</strong> @Inmueble.Longitud</p>
-                                <p><strong>Estado:</strong> @(Inmueble.Disponible ? "Disponible" : "No Disponible")</p>
-                                <p><strong>Tipo:</strong> @Inmueble.Tipo.ToString()</p>
-                                <p><strong>Uso:</strong> @Inmueble.Uso</p>
-                                <p><strong>Precio:</strong> @Inmueble.Precio</p>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item"><strong>Propietario:</strong>
+                                                @Inmueble.Propietario.ToString()</li>
+                                            <li class="list-group-item"><strong>Dirección:</strong> @Inmueble.Direccion</li>
+                                            <li class="list-group-item"><strong>Cantidad de Ambientes:</strong>
+                                                @Inmueble.Ambientes</li>
+                                            <li class="list-group-item"><strong>Superficie:</strong> @Inmueble.Superficie
+                                            </li>
+                                            <li class="list-group-item"><strong>Latitud:</strong> @Inmueble.Latitud</li>
+                                            <li class="list-group-item"><strong>Longitud:</strong> @Inmueble.Longitud</li>
+                                            <li class="list-group-item"><strong>Estado:</strong> @(Inmueble.Disponible ?
+                                            "Disponible" : "No Disponible")</li>
+                                            <li class="list-group-item"><strong>Tipo:</strong> @Inmueble.Tipo.ToString()
+                                            </li>
+                                            <li class="list-group-item"><strong>Uso:</strong> @Inmueble.Uso</li>
+                                            <li class="list-group-item"><strong>Precio:</strong> @Inmueble.Precio</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-footer">
+                            <div class="modal-footer bg-light">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             </div>
                         </div>
                     </div>
                 </div>
+
             }
         </tbody>
     </table>

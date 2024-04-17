@@ -55,55 +55,64 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="form-login">
-                <form asp-controller="Usuario" asp-action="Insertar" method="post">
+                <form asp-controller="Usuario" asp-action="Insertar" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <fieldset class="border p-2 mb-4">
-                        <legend class="w-100 font-weight-light mb-4" style="display: block;">Insertar nuevo usuario</legend>
+                        <legend class="w-100 font-weight-light mb-4" style="display: block;">Insertar nuevo usuario
+                        </legend>
 
-                    <div class="form-group">
-                        <label asp-for="Nombre" class="control-label">Nombre</label>
-                        <input asp-for="Nombre" class="form-control" />
-                        <span asp-validation-for="Nombre" class="text-danger"></span>
-                    </div>
 
-                    <div class="form-group">
-                        <label asp-for="Apellido" class="control-label">Apellido</label>
-                        <input asp-for="Apellido" class="form-control" />
-                        <span asp-validation-for="Apellido" class="text-danger"></span>
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="AvatarFile" class="control-label mb-3">Seleccionar Avatar</label>
+                            <input asp-for="AvatarFile" class="form-control mb-3" type="file" />
+                        </div>
 
-                    <div class="form-group">
-                        <label asp-for="Email" class="control-label">Email</label>
-                        <input asp-for="Email" class="form-control" type="email" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
 
-                    <div class="form-group">
-                        <label asp-for="Password" class="control-label">Contraseña</label>
-                        <input asp-for="Password" class="form-control" type="password" id="password" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="Nombre" class="control-label">Nombre</label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
 
-                    <div class="form-group">
-                        <label asp-for="ConfirmPassword" class="control-label">Repita la contraseña</label>
-                        <input asp-for="ConfirmPassword" class="form-control" type="password" id="ConfirmPassword" />
-                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="Apellido" class="control-label">Apellido</label>
+                            <input asp-for="Apellido" class="form-control" />
+                            <span asp-validation-for="Apellido" class="text-danger"></span>
+                        </div>
 
-                    <div class="form-group">
-                        <label class="control-label">Rol:</label>
-                        <select class="form-control" name="Rol">
-                            <option value="Administrador">Administrador</option>
-                            <option value="Empleado">Empleado</option>
-                        </select>
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label">Email</label>
+                            <input asp-for="Email" class="form-control" type="email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary mt-3">Guardar</button>
-                        <a asp-controller="Usuario" asp-action="Index"
-                            class="btn btn-danger mt-3 align-right">Cancelar</a>
-                    </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label">Contraseña</label>
+                            <input asp-for="Password" class="form-control" type="password" id="password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ConfirmPassword" class="control-label">Repita la contraseña</label>
+                            <input asp-for="ConfirmPassword" class="form-control" type="password"
+                                id="ConfirmPassword" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Rol:</label>
+                            <select class="form-control" name="Rol">
+                                <option value="Administrador">Administrador</option>
+                                <option value="Empleado">Empleado</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+                            <a asp-controller="Usuario" asp-action="Index"
+                                class="btn btn-danger mt-3 align-right">Cancelar</a>
+                        </div>
                     </fieldset>
                 </form>
             </div>

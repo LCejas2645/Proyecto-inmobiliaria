@@ -101,10 +101,9 @@ namespace ABM_inmobiliaria.Controllers
             return View();
         }
 
-
         [Authorize(Roles = "Administrador")]
         [HttpPost]
-        public IActionResult Insertar(Usuario usuario)
+        public async Task<IActionResult> Insertar(Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -127,11 +126,18 @@ namespace ABM_inmobiliaria.Controllers
                     string passwordHash = HashPassword(usuario.Password + pepper);
                     // Limitar la longitud del hash
                     usuario.Password = passwordHash.Substring(0, hashLength);
+                    
+                     // Cargar avatar
+                    if (usuario.AvatarFile != null)
+                    {
+                        usuario.AvatarUrl = await ProcesarCargaAvatar(usuario.AvatarFile);
+                    }
                     rp.InsertarUsuario(usuario);
-                    return RedirectToAction("Login");
+                    return RedirectToAction("index");
                 }
                 catch (Exception ex)
                 {
+                    // Manejar el error adecuadamente, por ejemplo, loguearlo
                     return View();
                 }
             }
@@ -198,7 +204,6 @@ namespace ABM_inmobiliaria.Controllers
                 }
 
             }
-            Console.WriteLine("Error en model state");
             return View();
         }
 
@@ -287,72 +292,46 @@ namespace ABM_inmobiliaria.Controllers
 
         //AVATAR===================================================================
         // Acción para mostrar el formulario de carga de avatar
-        [Authorize]
-        [HttpGet]
-        public IActionResult CargarAvatar()
-        {
-            return View();
-        }
-
-
-        // Acción para procesar la carga del avatar
+       
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CargarAvatar(Usuario usuario)
         {
-            if (usuario.AvatarFile != null && usuario.AvatarFile.Length > 0)
+            var avatarUrl = await ProcesarCargaAvatar(usuario.AvatarFile);
+
+            if (!string.IsNullOrEmpty(avatarUrl))
             {
-                var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
-
-                // Verificar si la carpeta de uploads existe, si no, crearla
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(usuario.AvatarFile.FileName);
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await usuario.AvatarFile.CopyToAsync(fileStream);
-                }
-
-                usuario.AvatarUrl = "/uploads/" + uniqueFileName; // extensión del archivo en la URL
-
-
-                //Verfico si vino desde el form actualizar usuarios
+                // Verificar si se está actualizando un usuario existente
                 if (usuario.Id != null && usuario.Id > 0)
                 {
-                    rp.ActualizarAvatar(usuario.Id, usuario.AvatarUrl);
-                    TempData["Mensaje"] = "Se modifico correctamente el avatar.";
-                    TempData["TipoMensaje"] = "success";
-                    return RedirectToAction("Index");
+                    rp.ActualizarAvatar(usuario.Id, avatarUrl);
                 }
                 else
                 {
                     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // id del usuario autenticado
-
-                    rp.ActualizarAvatar(int.Parse(userId), usuario.AvatarUrl); // Actualizar la URL del avatar en la base de datos del usuario actual
+                    rp.ActualizarAvatar(int.Parse(userId), avatarUrl);
 
                     // Llamar al método para actualizar la claim AvatarUrl con el nuevo valor
-                    await ActualizarClaim("AvatarUrl", usuario.AvatarUrl);
+                    await ActualizarClaim("AvatarUrl", avatarUrl);
                 }
 
-                TempData["Mensaje"] = "Se modifico correctamente el avatar.";
+                TempData["Mensaje"] = "Se modificó correctamente el avatar.";
                 TempData["TipoMensaje"] = "success";
-
-
+            }
+            else
+            {
+                TempData["Mensaje"] = "No se pudo cargar el avatar.";
+                TempData["TipoMensaje"] = "error";
             }
 
             return RedirectToAction("Index", "Home");
         }
 
+
+
         [Authorize]
         public async Task<IActionResult> EliminarAvatar(Usuario usuario)
         {
-
-            Console.WriteLine("Id desde eliminar Avatar" + usuario.Id);
             if (usuario.Id != null && usuario.Id > 0)
             {
                 rp.ActualizarAvatar(usuario.Id, "");
@@ -467,6 +446,34 @@ namespace ABM_inmobiliaria.Controllers
 
             // Actualizar la cookie de autenticación con la identidad actualizada
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        }
+
+
+        // Método para procesar la carga del avatar y utilizarlo en distintas acciones
+        private async Task<string> ProcesarCargaAvatar(IFormFile avatarFile)
+        {
+            if (avatarFile != null && avatarFile.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(_hostingEnvironment.WebRootPath, "uploads");
+
+                // Verificar si la carpeta de uploads existe, si no, crearla
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(avatarFile.FileName);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await avatarFile.CopyToAsync(fileStream);
+                }
+
+                return "/uploads/" + uniqueFileName; // Devolver la URL del avatar cargado
+            }
+
+            return null; // Si no se cargó ningún archivo, devolver null
         }
     }
 }
