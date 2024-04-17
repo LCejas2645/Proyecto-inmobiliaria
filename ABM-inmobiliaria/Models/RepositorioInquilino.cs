@@ -23,7 +23,7 @@ namespace ABM_inmobiliaria.Models
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = @$"SELECT {nameof(Inquilino.Id)}, {nameof(Inquilino.Nombre)}, {nameof(Inquilino.Apellido)}, {nameof(Inquilino.Telefono)}, {nameof(Inquilino.Email)} FROM Inquilino";
+                var sql = @$"SELECT {nameof(Inquilino.Id)}, {nameof(Inquilino.Nombre)}, {nameof(Inquilino.Apellido)}, {nameof(Inquilino.Telefono)}, {nameof(Inquilino.Email)}, {nameof(Inquilino.Dni)} FROM Inquilino";
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     connection.Open();
@@ -37,7 +37,8 @@ namespace ABM_inmobiliaria.Models
                                 Nombre = reader.GetString(nameof(Inquilino.Nombre)),
                                 Apellido = reader.GetString(nameof(Inquilino.Apellido)),
                                 Telefono = reader.GetString(nameof(Inquilino.Telefono)),
-                                Email = reader.GetString(nameof(Inquilino.Email))
+                                Email = reader.GetString(nameof(Inquilino.Email)),
+                                Dni = reader.GetString(nameof(Inquilino.Dni))
                             });
 
                         }
@@ -54,7 +55,7 @@ namespace ABM_inmobiliaria.Models
         {
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = $"SELECT {nameof(Inquilino.Id)}, {nameof(Inquilino.Nombre)}, {nameof(Inquilino.Apellido)}, {nameof(Propietario.Telefono)}, {nameof(Propietario.Email)} FROM Inquilino WHERE {nameof(Inquilino.Id)} = @Id";
+                var sql = $"SELECT {nameof(Inquilino.Id)}, {nameof(Inquilino.Nombre)}, {nameof(Inquilino.Apellido)}, {nameof(Inquilino.Telefono)}, {nameof(Inquilino.Email)}, {nameof(Inquilino.Dni)} FROM Inquilino WHERE {nameof(Inquilino.Id)} = @Id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -70,7 +71,8 @@ namespace ABM_inmobiliaria.Models
                                 Nombre = reader.GetString(nameof(Inquilino.Nombre)),
                                 Apellido = reader.GetString(nameof(Inquilino.Apellido)),
                                 Telefono = reader.GetString(nameof(Inquilino.Telefono)),
-                                Email = reader.GetString(nameof(Inquilino.Email))
+                                Email = reader.GetString(nameof(Inquilino.Email)),
+                                Dni = reader.GetString(nameof(Inquilino.Dni))
                             };
                         }
                     }
@@ -86,15 +88,16 @@ namespace ABM_inmobiliaria.Models
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 var sql = @$"INSERT INTO inquilino({nameof(Inquilino.Nombre)}, {nameof(Inquilino.Apellido)},
-			{nameof(Inquilino.Telefono)}, {nameof(Inquilino.Email)})
-				VALUES (@{nameof(Inquilino.Nombre)}, @{nameof(Inquilino.Apellido)},
+			{nameof(Inquilino.Dni)}, {nameof(Inquilino.Telefono)}, {nameof(Inquilino.Email)})
+				VALUES (@{nameof(Inquilino.Nombre)}, @{nameof(Inquilino.Apellido)}, @{nameof(Inquilino.Dni)},
 				@{nameof(Inquilino.Telefono)}, @{nameof(Inquilino.Email)});";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue(@$"{nameof(Inquilino.Nombre)}", inquilino.Nombre);
                     command.Parameters.AddWithValue(@$"{nameof(Inquilino.Apellido)}", inquilino.Apellido);
-                    command.Parameters.AddWithValue(@$"{nameof(Inquilino.Telefono)}",inquilino.Telefono);
+                    command.Parameters.AddWithValue(@$"{nameof(Inquilino.Dni)}", inquilino.Dni);
+                    command.Parameters.AddWithValue(@$"{nameof(Inquilino.Telefono)}", inquilino.Telefono);
                     command.Parameters.AddWithValue(@$"{nameof(Inquilino.Email)}", inquilino.Email);
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -110,6 +113,7 @@ namespace ABM_inmobiliaria.Models
                 var sql = @$"UPDATE inquilino SET 
                     {nameof(Inquilino.Nombre)} = @{nameof(Inquilino.Nombre)}, 
                     {nameof(Inquilino.Apellido)} =  @{nameof(Inquilino.Apellido)}, 
+                     {nameof(Inquilino.Dni)} =  @{nameof(Inquilino.Dni)}, 
                     {nameof(Inquilino.Telefono)} = @{nameof(Inquilino.Telefono)}, 
                     {nameof(Inquilino.Email)} = @{nameof(Inquilino.Email)} 
                     WHERE {nameof(Inquilino.Id)} = @Id";
@@ -117,6 +121,7 @@ namespace ABM_inmobiliaria.Models
                 {
                     command.Parameters.AddWithValue("@Nombre", inquilino.Nombre);
                     command.Parameters.AddWithValue("@Apellido", inquilino.Apellido);
+                      command.Parameters.AddWithValue("@Dni", inquilino.Dni);
                     command.Parameters.AddWithValue("@Telefono", inquilino.Telefono);
                     command.Parameters.AddWithValue("@Email", inquilino.Email);
                     command.Parameters.AddWithValue("@Id", inquilino.Id);

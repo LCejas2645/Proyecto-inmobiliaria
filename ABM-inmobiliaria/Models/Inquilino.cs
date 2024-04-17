@@ -13,13 +13,14 @@ namespace ABM_inmobiliaria.Models
         public string? Nombre { get; set; }
         [Required(ErrorMessage = "El campo Apellido es obligatorio")]
         public string? Apellido { get; set; }
-        [Required(ErrorMessage = "El campo Telefono es obligatorio")]
+        //[Required(ErrorMessage = "El campo Telefono es obligatorio")]
         public string? Telefono { get; set; }
-        [Required(ErrorMessage = "El campo Email es obligatorio")]
-        [EmailAddress(ErrorMessage = "El campo Email no tiene un formato válido")]
+        //[Required(ErrorMessage = "El campo Email es obligatorio")]
+        //[EmailAddress(ErrorMessage = "El campo Email no tiene un formato válido")]
         public string? Email { get; set; }
 
-
+        [Required(ErrorMessage = "El campo Dni es obligatorio")]
+        public string? Dni { get; set; }
         public override string ToString()
         {
             return $"{Nombre} {Apellido}";

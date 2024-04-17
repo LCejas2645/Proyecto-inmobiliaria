@@ -72,6 +72,17 @@ namespace ABM_inmobiliaria.Controllers
                     else
                     {
                         // Si el Id es cero o menos, es una solicitud de inserción.
+
+                        if (inquilino.Email == null)
+                        { //si viene de la alta rapida
+                            inquilino.Email = "";
+                            inquilino.Telefono = "";
+                            rp.InsertarInquilino(inquilino);
+                            TempData["Mensaje"] = $"Se ha insertado correctamente a {inquilino.Nombre} {inquilino.Apellido}";
+                            TempData["TipoMensaje"] = "success";
+                            return RedirectToAction("Insertar","Contrato");
+                        }
+
                         rp.InsertarInquilino(inquilino);
                         TempData["Mensaje"] = $"Se ha insertado correctamente a {inquilino.Nombre} {inquilino.Apellido}";
                         TempData["TipoMensaje"] = "success";

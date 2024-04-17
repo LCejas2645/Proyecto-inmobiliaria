@@ -1,11 +1,20 @@
 @model Contrato
+@using ABM_inmobiliaria.Models
 @{
     ViewData["Title"] = "Agregar Contrato";
-    //var propietarios = (IList<Propietario>)ViewBag.Propietarios;
-    //var usuarios = (IList<Usuario>)ViewBag.usuarios;
     var inmuebles = (IList<Inmueble>)ViewBag.Inmuebles;
     var inquilinos = (IList<Inquilino>)ViewBag.Inquilinos;
+}
 
+@if (TempData["Mensaje"] != null)
+{
+    string tipoMensaje = TempData["TipoMensaje"] as string;
+    string claseAlerta = tipoMensaje == "error" ? "alert-danger" : "alert-success";
+
+    <div class="alert @claseAlerta alert-dismissible fade show" role="alert">
+        @TempData["Mensaje"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 }
 
 <div class="container">
@@ -15,7 +24,6 @@
 
             <form asp-controller="Contrato" asp-action="Insertar" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
 
                 <div class="form-group">
                     <label class="control-label">Inmuebles</label>
@@ -31,29 +39,22 @@
                     <span asp-validation-for="Id" class="text-danger"></span>
                 </div>
 
-                @*
-                <div class="form-group">
-                <label class="control-label">Propietarios</label>
-                <select class="form-control" name="IdPropietario">
-                @foreach (var item in propietarios)
-                {
-                <option value="@item.Id">@(item.ToString())</option>
-                }
-                </select>
-                <span asp-validation-for="Id" class="text-danger"></span>
+                <div class="form-group row mb-3">
+                    <label class="control-label col-md-8">Inquilinos</label>
+                    <div class="col-md-8">
+                        <select class="form-control" name="IdInquilino">
+                            @foreach (var item in inquilinos)
+                            {
+                                <option value="@item.Id">@(item.ToString())</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button type="button" class="btn btn-primary btn-block" data-bs-toggle="modal"
+                            data-bs-target="#nuevoInquilinoModal">Nuevo Inquilino</button>
+                    </div>
                 </div>
-                *@
-                <div class="form-group mb-3">
-                    <label class="control-label">Inquilinos</label>
-                    <select class="form-control" name="IdInquilino">
-                        @foreach (var item in inquilinos)
-                        {
-                            <option value="@item.Id">@(item.ToString())</option>
-                        }
-                    </select>
-                    <span asp-validation-for="Id" class="text-danger"></span>
-                </div>
-
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">Fecha inicio</span>
                     <input type="date" class="form-control" id="datepicker" asp-for="FechaInicio" name="fechaInicio"
@@ -67,15 +68,54 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="MontoMensual" class="control-label"></label>
+                    <label asp-for="MontoMensual" class="control-label">Monto Mensual</label>
                     <input asp-for="MontoMensual" class="form-control" type="number" />
                     <span asp-validation-for="MontoMensual" class="text-danger"></span>
                 </div>
 
-
                 <button type="submit" class="btn btn-primary mt-3">Guardar</button>
                 <a asp-controller="Contrato" asp-action="Index" class="btn btn-danger mt-3 ml-2">Cancelar</a>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="nuevoInquilinoModal" tabindex="-1" aria-labelledby="nuevoInquilinoModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="nuevoInquilinoModalLabel">Nuevo Inquilino</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Aquí colocarás el formulario para agregar un nuevo inquilino -->
+                <form asp-controller="Inquilino" asp-action="Insertar" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Inquilino.Nombre" class="control-label"></label>
+                        <input asp-for="Inquilino.Nombre" class="form-control" />
+                        <span asp-validation-for="Inquilino.Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Inquilino.Apellido" class="control-label"></label>
+                        <input asp-for="Inquilino.Apellido" class="form-control" />
+                        <span asp-validation-for="Inquilino.Apellido" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Inquilino.Dni" class="control-label"></label>
+                        <input asp-for="Inquilino.Dni" class="form-control" type="text" />
+                        <span asp-validation-for="Inquilino.Dni" class="text-danger"></span>
+                    </div>
+                    <!-- Agrega un botón de envío dentro del formulario -->
+                    <button type="submit" class="btn btn-success mt-3 w-100">Guardar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
         </div>
     </div>
 </div>
