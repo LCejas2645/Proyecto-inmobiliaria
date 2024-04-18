@@ -18,6 +18,37 @@ namespace ABM_inmobiliaria.Controllers
             _logger = logger;
         }
 
+        [Authorize]
+        public IActionResult Index()
+        {
+            try
+            {
+                var pagos = rp.GetPagos();
+                return View(pagos);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al obtener la lista de pagos");
+                return RedirectToAction("Error");
+            }
+        }
+
+        public IActionResult Eliminar(int id)
+        {
+            try
+            {
+                rp.EliminarPago(id);
+                TempData["Mensaje"] = $"Se eliminó correctamente el pago";
+                TempData["TipoMensaje"] = "success";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al eliminar el pago");
+                return RedirectToAction("Error");
+            }
+        }
+
 
         [Authorize]
         public IActionResult Insertar(int idContrato)
@@ -57,7 +88,7 @@ namespace ABM_inmobiliaria.Controllers
 
         }
 
-          [Authorize]
+        [Authorize]
         public IActionResult Actualizar(int id)
         {
             return View();
