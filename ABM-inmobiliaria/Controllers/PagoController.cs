@@ -33,6 +33,7 @@ namespace ABM_inmobiliaria.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         public IActionResult Eliminar(int id)
         {
             try
@@ -59,6 +60,7 @@ namespace ABM_inmobiliaria.Controllers
                 IdContrato = idContrato,
                 Contrato = contrato
             };
+            ViewBag.Contratos = rc.GetContratos();
             return View(pago);
         }
 
@@ -68,6 +70,12 @@ namespace ABM_inmobiliaria.Controllers
         {
             try
             {
+                if (pago.Importe <= 0)
+                {
+                    ModelState.AddModelError("Importe", "El importe debe ser un número válido y mayor que cero.");
+                     ViewBag.Contratos = rc.GetContratos();
+                }
+
                 if (ModelState.IsValid)
                 {
                     pago.NumeroPago = rp.ObtenerNumeroPago(pago.IdContrato);

@@ -79,7 +79,7 @@ namespace ABM_inmobiliaria.Models
                         {
                             return new Tipo
                             {
-                               TipoInmueble = reader.GetString("tipoInmueble")
+                                TipoInmueble = reader.GetString("tipoInmueble")
                             };
                         }
                     }
@@ -102,6 +102,22 @@ namespace ABM_inmobiliaria.Models
 
                     connection.Open();
                     command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public void EliminarTipo(int id)
+        {
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                var sql = @$"DELETE FROM tipo WHERE {nameof(Tipo.Id)} = @Id";
+
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Id", id);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
                 }
             }
         }

@@ -17,65 +17,123 @@
     </div>
 }
 
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .label-avatar {
+        margin-left: 30px;
+    }
+
+    .form-login {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        /* Hacer que el botón ocupe el ancho de los inputs */
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    /* Estilo para alinear el botón a la derecha */
+    .align-right {
+        margin-left: auto;
+    }
+
+    legend {
+        color: #fff;
+        background-color: #007bff;
+        border: 1px solid #007bff;
+        border-bottom-color: transparent;
+    }
+</style>
+
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h3 class="text-center">@ViewData["Title"]</h3>
+            <div class="form-login">
 
-            <form asp-controller="Contrato" asp-action="Insertar" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form asp-controller="Contrato" asp-action="Insertar" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="form-group">
-                    <label class="control-label">Inmuebles</label>
-                    <select class="form-control" name="IdInmueble">
-                        @foreach (var item in inmuebles)
-                        {
-                            if (item.Disponible)
-                            {
-                                <option value="@item.Id">@(item.ToString())</option>
-                            }
-                        }
-                    </select>
-                    <span asp-validation-for="Id" class="text-danger"></span>
-                </div>
+                    <fieldset class="border p-2 mb-4">
+                        <legend class="w-100 font-weight-light mb-4" style="display: block;">Insertar nuevo contrato
+                        </legend>
 
-                <div class="form-group row mb-3">
-                    <label class="control-label col-md-8">Inquilinos</label>
-                    <div class="col-md-8">
-                        <select class="form-control" name="IdInquilino">
-                            @foreach (var item in inquilinos)
-                            {
-                                <option value="@item.Id">@(item.ToString())</option>
-                            }
-                        </select>
-                        <span asp-validation-for="Id" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-4 text-end">
-                        <button type="button" class="btn btn-primary btn-block" data-bs-toggle="modal"
-                            data-bs-target="#nuevoInquilinoModal">Nuevo Inquilino</button>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Fecha inicio</span>
-                    <input type="date" class="form-control" id="datepicker" asp-for="FechaInicio" name="fechaInicio"
-                        aria-describedby="basic-addon1">
-                </div>
 
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1">Fecha Finalizacion</span>
-                    <input type="date" class="form-control" id="datepicker" asp-for="FechaFin" name="fechaFin"
-                        aria-describedby="basic-addon1">
-                </div>
+                        <div class="form-group">
+                            <label class="control-label">Inmuebles</label>
+                            <select class="form-control" name="IdInmueble">
+                                @foreach (var item in inmuebles)
+                                {
+                                    if (item.Disponible)
+                                    {
+                                        <option value="@item.Id">@(item.ToString())</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="Id" class="text-danger"></span>
+                        </div>
 
-                <div class="form-group">
-                    <label asp-for="MontoMensual" class="control-label">Monto Mensual</label>
-                    <input asp-for="MontoMensual" class="form-control" type="number" />
-                    <span asp-validation-for="MontoMensual" class="text-danger"></span>
-                </div>
+                        <div class="form-group row mb-3">
+                            <label class="control-label col-md-8">Inquilinos</label>
+                            <div class="col-md-8">
+                                <select class="form-control" name="IdInquilino">
+                                    @foreach (var item in inquilinos)
+                                    {
+                                        <option value="@item.Id">@(item.ToString())</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="Id" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <button type="button" class="btn btn-primary btn-block" data-bs-toggle="modal"
+                                    data-bs-target="#nuevoInquilinoModal">Nuevo Inquilino</button>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Fecha inicio</span>
+                            <input type="date" class="form-control" id="datepicker" asp-for="FechaInicio"
+                                name="fechaInicio" aria-describedby="basic-addon1">
+                        </div>
 
-                <button type="submit" class="btn btn-primary mt-3">Guardar</button>
-                <a asp-controller="Contrato" asp-action="Index" class="btn btn-danger mt-3 ml-2">Cancelar</a>
-            </form>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">Fecha Finalizacion</span>
+                            <input type="date" class="form-control" id="datepicker" asp-for="FechaFin" name="fechaFin"
+                                aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="MontoMensual" class="control-label">Monto Mensual</label>
+                            <input asp-for="MontoMensual" class="form-control" type="number" min="1" step="any" />
+                            <span asp-validation-for="MontoMensual" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+                            <a asp-controller="Contrato" asp-action="Index"
+                                class="btn btn-danger mt-3 ml-2">Cancelar</a>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </div>
 </div>

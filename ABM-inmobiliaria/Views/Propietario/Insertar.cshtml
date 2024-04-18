@@ -3,14 +3,66 @@
     ViewData["Title"] = Model.Id > 0 ? "Modificar propietario" : "Agregar propietario";
 }
 
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .label-avatar {
+        margin-left: 30px;
+    }
+
+    .form-login {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        /* Hacer que el botón ocupe el ancho de los inputs */
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    /* Estilo para alinear el botón a la derecha */
+    .align-right {
+        margin-left: auto;
+    }
+
+    legend {
+        color: #fff;
+        background-color: #007bff;
+        border: 1px solid #007bff;
+        border-bottom-color: transparent;
+    }
+</style>
+
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form asp-controller="Propietario" asp-action="Insertar" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-login">
+                 <form asp-controller="Propietario" asp-action="Insertar" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <h3 class="text-center">@ViewData["Title"]</h3>
-                @if (Model.Id > 0)
+                    <fieldset class="border p-2 mb-4">
+                        <legend class="w-100 font-weight-light mb-4" style="display: block;">@ViewData["Title"]
+                        </legend>
+
+
+                        @if (Model.Id > 0)
                 {
                     <input type="hidden" asp-for="Id" />
                 }
@@ -40,9 +92,15 @@
                     <input asp-for="Email" class="form-control" type="email" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <button type="submit" class="btn btn-primary mt-3">Guardar</button>
-                <a asp-controller="Propietario" asp-action="Index" class="btn btn-danger mt-3 ml-2">cancelar</a>
-            </form>
+                
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+                    <a asp-controller="Propietario" asp-action="Index" class="btn btn-danger mt-3 ml-2">cancelar</a>
+                </div>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </div>
 </div>
