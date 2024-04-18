@@ -50,6 +50,8 @@
                     <td>@Contrato.MontoMensual</td>
 
                     <td>
+                         <a asp-controller="Pago" asp-action="Insertar" asp-route-idContrato="@Contrato.Id" class="btn btn-success btn-sm" style="width: 80px;">Nuevo pago</a>
+
                         <button class="btn btn-info btn-sm boton" style="width: 80px;" data-bs-toggle="modal"
                             data-bs-target="#modalDetalles_@(Contrato.Id)">
                             Detalles

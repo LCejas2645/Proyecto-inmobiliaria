@@ -56,6 +56,9 @@ namespace ABM_inmobiliaria.Controllers
             ViewBag.Propietarios = rp.GetPropietarios();
             ViewBag.Inquilinos = ri.GetInquilinos();
             ViewBag.inmuebles = rinm.GetInmuebles();
+
+            
+
             return View();
         }
 
