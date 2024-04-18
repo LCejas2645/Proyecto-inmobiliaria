@@ -30,7 +30,7 @@ namespace ABM_inmobiliaria.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error al obtener la lista de propietarios");
+                _logger.LogError(ex, "Error al obtener la lista de inquilinos");
                 return RedirectToAction("Error");
             }
 
