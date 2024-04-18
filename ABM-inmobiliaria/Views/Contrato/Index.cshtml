@@ -34,7 +34,7 @@
                 <th>Fecha Fin</th>
                 <th>Vigente</th>
                 <th>Monto mensual</th>
-                <th></th>
+                <th style="width: 400px;"></th>
             </tr>
         </thead>
         <tbody>
@@ -49,8 +49,8 @@
                     <td>@(Contrato.Vigente ? "Si" : "No")</td>
                     <td>@Contrato.MontoMensual</td>
 
-                    <td>
-                         <a asp-controller="Pago" asp-action="Insertar" asp-route-idContrato="@Contrato.Id" class="btn btn-success btn-sm" style="width: 80px;">Nuevo pago</a>
+                    <td style="">
+                         <a asp-controller="Pago" asp-action="Insertar" asp-route-idContrato="@Contrato.Id" class="btn btn-success btn-sm" style="width: 100px;">Nuevo pago</a>
 
                         <button class="btn btn-info btn-sm boton" style="width: 80px;" data-bs-toggle="modal"
                             data-bs-target="#modalDetalles_@(Contrato.Id)">
