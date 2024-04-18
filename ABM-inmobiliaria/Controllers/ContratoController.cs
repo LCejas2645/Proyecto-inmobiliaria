@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 //using ZstdSharp.Unsafe;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using ZstdSharp.Unsafe;
 
 namespace ABM_inmobiliaria.Controllers
 {
@@ -21,6 +22,8 @@ namespace ABM_inmobiliaria.Controllers
         private RepositorioInquilino ri = new RepositorioInquilino();
         private RepositorioInmueble rinm = new RepositorioInmueble();
         private RepositorioUsuario ru = new RepositorioUsuario();
+
+        private RepositorioAuditoria ra = new RepositorioAuditoria();
 
 
 
@@ -94,7 +97,7 @@ namespace ABM_inmobiliaria.Controllers
                     {
                         var usuario = ru.GetUsuarioEmail(User.FindFirst(ClaimTypes.Email).Value); ///Obtengo el usuario que inicio sesion desde la claim 
                         contrato.Usuario = usuario;
-                        contrato.IdUsuario=usuario.Id;
+                        contrato.IdUsuario = usuario.Id;
                     }
                     rc.InsertarContrato(contrato);
                     TempData["Mensaje"] = "El contrato se ha creado correctamente.";
@@ -169,7 +172,7 @@ namespace ABM_inmobiliaria.Controllers
 
                 if (ModelState.IsValid)
                 {
-                     //Obtengo el propietario perteneciente al inmueble
+                    //Obtengo el propietario perteneciente al inmueble
                     contrato.IdPropietario = contrato.Inmueble.IdPropietario;
                     rc.ActualizarContrato(contrato);
                     TempData["Mensaje"] = "El contrato se ha actualizado correctamente.";
@@ -203,6 +206,16 @@ namespace ABM_inmobiliaria.Controllers
             try
             {
                 rc.EliminarContrato(id);
+
+                // Insertar entrada en la tabla de auditoría
+                var usuario = ru.GetUsuarioEmail(User.FindFirst(ClaimTypes.Email).Value); ///Obtengo el usuario que inicio sesion desde la claim 
+                var idUsuario = usuario.Id;
+                int idEntidad = id; // El ID de la entidad eliminada (en este caso, el contrato)
+                bool entidad = true; // El nombre de la entidad eliminada
+                DateTime fechaAccion = DateTime.Now; // La fecha y hora actual
+
+                ra.InsertarAuditoria(idUsuario, id, entidad, fechaAccion);
+                //ra.InsertarAuditoria(id);
                 TempData["Mensaje"] = $"Se eliminó correctamente el contrato";
                 TempData["TipoMensaje"] = "success";
                 return RedirectToAction("Index");

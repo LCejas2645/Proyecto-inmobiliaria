@@ -1,0 +1,15 @@
+@model IEnumerable<Auditoria>
+
+@{
+    ViewData["Title"] = "Auditoria";
+}
+
+@foreach(var Auditoria in Model){
+    <p>@Auditoria.Id</p>
+    <p>@Auditoria.IdUsuario</p>
+    <p>@Auditoria.IdEntidad</p>
+    <p>@Auditoria.Entidad</p>
+    <p>@Auditoria.FechaAccion</p>
+    <hr>
+    <hr>
+}
