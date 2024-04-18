@@ -16,7 +16,7 @@
 
 <div class="container mt-5">
     <h1 class="mb-4">ABM de Pago</h1>
-    <a asp-controller="Inquilino" asp-action="Insertar" class="btn btn-success mb-3">Agregar Pago</a>
+    <a asp-controller="Pago" asp-action="Insertar" class="btn btn-success mb-3">Agregar Pago</a>
 
 
     <table id="miTabla" class="table" style="">
@@ -44,9 +44,9 @@
                     <td>@Pago.Fecha.ToShortDateString()</td>
                     <td>@Pago.Importe</td>
                     <td>@(Pago.Estado ? "Realizado" : "Anulado")</td>
-                    <td style="">@Pago.Detalles</td>
+                    <td style="">@Pago.Detalle</td>
                     <td>
-                        <a asp-controller="Inquilino" asp-action="Insertar" asp-route-id="@Pago.Id"
+                        <a asp-controller="Pago" asp-action="Actualizar" asp-route-id="@Pago.Id"
                             class="btn btn-primary btn-sm" style="width: 100px;">Modificar</a>
 
                         @*Oculto el eliminar para empleados*@
@@ -63,5 +63,8 @@
         </tbody>
     </table>
 </div>
+
+
+
 
 

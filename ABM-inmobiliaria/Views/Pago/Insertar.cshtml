@@ -84,12 +84,23 @@
                                 aria-describedby="basic-addon1" value="@DateTime.Now.ToString("yyyy-MM-dd")">
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for="Importe" class="control-label"></label>
-                            <input asp-for="Importe" class="form-control" type="number"
-                                value="@Model.Contrato.MontoMensual" />
-                            <span asp-validation-for="Importe" class="text-danger"></span>
-                        </div>
+                        @if (@Model.Contrato == null)
+                        {
+                            <div class="form-group">
+                                <label asp-for="Importe" class="control-label"></label>
+                                <input asp-for="Importe" class="form-control" type="number">
+                                <span asp-validation-for="Importe" class="text-danger"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="form-group">
+                                <label asp-for="Importe" class="control-label"></label>
+                                <input asp-for="Importe" class="form-control" type="number"
+                                    value="@Model.Contrato.MontoMensual" />
+                                <span asp-validation-for="Importe" class="text-danger"></span>
+                            </div>
+                        }
 
                         <button type="submit" class="btn btn-success mt-3 w-100">Guardar</button>
                     </fieldset>

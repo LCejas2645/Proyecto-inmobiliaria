@@ -1,0 +1,84 @@
+@using System.Globalization
+@model Pago
+
+@{
+    ViewData["Title"] = "Agregar nuevo pago";
+}
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .label-avatar {
+        margin-left: 30px;
+    }
+
+    .form-login {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        /* Hacer que el botón ocupe el ancho de los inputs */
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+    /* Estilo para alinear el botón a la derecha */
+    .align-right {
+        margin-left: auto;
+    }
+
+    legend {
+        color: #fff;
+        background-color: #007bff;
+        border: 1px solid #007bff;
+        border-bottom-color: transparent;
+    }
+</style>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="form-login">
+                <form asp-controller="Pago" asp-action="Actualizar" method="post">
+
+                    <fieldset class="border p-2 mb-4">
+                        <legend class="w-100 font-weight-light mb-4" style="display: block;">Modificar pago
+                        </legend>
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group mb-4">
+                            <label class="control-label">Mes</label>
+                            <select class="form-control" name="Detalle">
+                                @for (int i = 1; i <= 12; i++)
+                                {
+                                    <option value="@DateTimeFormatInfo.CurrentInfo.GetMonthName(i)">
+                                        @DateTimeFormatInfo.CurrentInfo.GetMonthName(i)</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Detalle" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3 w-100">Guardar</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
