@@ -119,6 +119,11 @@ namespace ABM_inmobiliaria.Controllers
                     ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden.");
                     return View(usuario);
                 }
+                if (rp.EmailOcupado(0, usuario.Email))
+                {
+                    ModelState.AddModelError("Email", "El mail ya esta registrado con otro usuario");
+                    return View(usuario);
+                }
 
                 try
                 {
@@ -126,8 +131,8 @@ namespace ABM_inmobiliaria.Controllers
                     string passwordHash = HashPassword(usuario.Password + pepper);
                     // Limitar la longitud del hash
                     usuario.Password = passwordHash.Substring(0, hashLength);
-                    
-                     // Cargar avatar
+
+                    // Cargar avatar
                     if (usuario.AvatarFile != null)
                     {
                         usuario.AvatarUrl = await ProcesarCargaAvatar(usuario.AvatarFile);
@@ -163,6 +168,12 @@ namespace ABM_inmobiliaria.Controllers
             {
                 try
                 {
+                    if (rp.EmailOcupado(0, usuario.Email))
+                    {
+                        ModelState.AddModelError("Email", "El mail ya esta registrado con otro usuario");
+                        return View(usuario);
+                    }
+
                     //para cambio de contraseña
                     if (!string.IsNullOrEmpty(usuario.Password))
                     {
@@ -292,7 +303,7 @@ namespace ABM_inmobiliaria.Controllers
 
         //AVATAR===================================================================
         // Acción para mostrar el formulario de carga de avatar
-       
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CargarAvatar(Usuario usuario)

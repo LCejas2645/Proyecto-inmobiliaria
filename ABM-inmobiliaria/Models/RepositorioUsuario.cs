@@ -203,5 +203,58 @@ namespace ABM_inmobiliaria.Models
             }
         }
 
+        /*
+              //metodo para controlar el inmueble no este ocupado por otro contrato en las mismas fechas 
+        public bool InmuebleOcupadoEnOtroContrato(int idInmueble, DateTime fechaInicio, int idContrato)
+        {
+            // Consulta para verificar si hay algún contrato que coincida con las fechas del contrato nuevo
+            string sql = @"SELECT COUNT(*) FROM contrato 
+                   WHERE idInmueble = @IdInmueble 
+                   AND fechaFin >= @FechaInicio
+                   AND id != @IdContrato";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@IdInmueble", idInmueble);
+                    command.Parameters.AddWithValue("@FechaInicio", fechaInicio);
+                    command.Parameters.AddWithValue("@IdContrato", idContrato);
+
+                    connection.Open();
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+
+                    // Si count es mayor que 0, significa que el inmueble está ocupado en otro contrato con fecha de fin después de la fecha de inicio del contrato nuevo
+                    return count > 0;
+                }
+            }
+        }
+
+        */
+
+        //metodo para controlar que el email no este registrado en otro usuario
+        public bool EmailOcupado(int id, string email)
+        {
+            string sql = @"SELECT COUNT(*) FROM usuario 
+                   WHERE email = @Email 
+                   AND id != @Id";
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@Id", id);
+
+                    connection.Open();
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+                    // Si count es mayor que 0, significa que el mail ya esta ocupado por otro usuario
+                    return count > 0;
+                }
+            }
+        }
+
+
+
     }
 }
