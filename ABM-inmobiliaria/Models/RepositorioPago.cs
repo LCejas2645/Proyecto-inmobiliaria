@@ -20,9 +20,13 @@ namespace ABM_inmobiliaria.Models
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 var sql = @"SELECT p.Id, numeroPago, idContrato, p.idUsuario, fecha, importe, estado, detalle,
-                                     u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario
+                                    u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario,
+                                    i.apellido AS apellido_inquilino, pr.apellido AS apellido_propietario
                             FROM pago p  
                             INNER JOIN usuario u ON p.idUsuario = u.id
+                            INNER jOIN contrato c ON p.idContrato = c.id
+                            INNER JOIN inquilino i ON c.idinquilino = i.id
+                            INNER JOIN propietario pr ON c.idpropietario = pr.id
                             WHERE estado = 1";
 
                 using (var command = new MySqlCommand(sql, connection))
@@ -43,6 +47,12 @@ namespace ABM_inmobiliaria.Models
                                 {
                                     Nombre = reader.GetString("nombreUsuario"),
                                     Apellido = reader.GetString("apellidoUsuario")
+                                },
+                                inquilino = new Inquilino{
+                                    Apellido = reader.GetString("apellido_inquilino")
+                                },
+                                propietario = new Propietario{
+                                    Apellido = reader.GetString("apellido_propietario")
                                 },
                                 Fecha = reader.GetDateTime("fecha"),
                                 Importe = reader.GetDouble("importe"),
