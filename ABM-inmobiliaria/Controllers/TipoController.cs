@@ -117,7 +117,9 @@ namespace ABM_inmobiliaria.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al eliminar el tipo de inmueble");
-                return RedirectToAction("Error");
+                TempData["Mensaje"] = $"Error, es probable que el tipo de inmueble pertenezca a inmuebles ya registrados";
+                TempData["TipoMensaje"] = "error";
+                return RedirectToAction("index");
             }
         }
 

@@ -112,6 +112,8 @@ namespace ABM_inmobiliaria.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al eliminar al inquilino");
+                TempData["Mensaje"] = $"Error, es probable que el inquilino pertenezca a un contrato vigente";
+                TempData["TipoMensaje"] = "error";
                 return RedirectToAction("index");
             }
         }
