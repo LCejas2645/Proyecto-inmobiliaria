@@ -18,5 +18,7 @@ namespace ABM_inmobiliaria.Models
         public Contrato? Contrato { get; set; }
         public int IdUsuario { get; set; }
         public Usuario? usuario { get; set; }
+        public Inquilino inquilino {get;set;}
+        public Propietario propietario {get;set;}
     }
 }
