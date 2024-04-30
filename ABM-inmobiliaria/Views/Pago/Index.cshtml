@@ -39,8 +39,8 @@
                 <tr>
                     @* <td>@Pago.Id</td> *@
                     <td>@Pago.NumeroPago</td>
-                    <td><span style="color: blue;"><strong>@("Inquilino: "+Pago.inquilino.Apellido)</strong></span><br><strong>@("Propietario: "+Pago.propietario.Apellido)</strong></td>
-                    <td>@(Pago.usuario.Nombre+" "+Pago.usuario.Apellido)</td>
+                    <td><span style="color: blue;"><strong>@("Inquilino: "+Pago.Contrato.Inquilino.Apellido)</strong></span><br><strong>@("Propietario: "+Pago.Contrato.Propietario.Apellido)</strong></td>
+                    <td>@(Pago.Usuario.Nombre+" "+Pago.Usuario.Apellido)</td>
                     <td>@Pago.Fecha.ToShortDateString()</td>
                     <td>@Pago.Importe</td>
                     <td>@(Pago.Estado ? "Realizado" : "Anulado")</td>

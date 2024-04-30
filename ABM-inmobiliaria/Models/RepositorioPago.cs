@@ -19,15 +19,16 @@ namespace ABM_inmobiliaria.Models
 
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = @"SELECT p.Id, numeroPago, idContrato, p.idUsuario, fecha, importe, estado, detalle,
-                                    u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario,
-                                    i.apellido AS apellido_inquilino, pr.apellido AS apellido_propietario
-                            FROM pago p  
-                            INNER JOIN usuario u ON p.idUsuario = u.id
-                            INNER jOIN contrato c ON p.idContrato = c.id
-                            INNER JOIN inquilino i ON c.idinquilino = i.id
-                            INNER JOIN propietario pr ON c.idpropietario = pr.id
-                            WHERE estado = 1";
+                var sql = @"SELECT p.Id, p.numeroPago, p.idContrato, p.idUsuario, p.fecha, p.importe, p.estado, p.detalle,
+                u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario,
+                i.nombre AS nombreInquilino, i.apellido AS apellidoInquilino, i.dni AS dniInquilino, i.telefono AS telefonoInquilino, i.email AS emailInquilino,
+                pr.nombre AS nombrePropietario, pr.apellido AS apellidoPropietario, pr.dni AS dniPropietario, pr.telefono AS telefonoPropietario, pr.email AS emailPropietario
+                FROM pago p  
+                INNER JOIN usuario u ON p.idUsuario = u.id
+                INNER JOIN contrato c ON p.idContrato = c.id
+                INNER JOIN inquilino i ON c.idInquilino = i.id
+                INNER JOIN propietario pr ON c.idPropietario = pr.id
+                WHERE p.estado = 1";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -43,21 +44,34 @@ namespace ABM_inmobiliaria.Models
                                 NumeroPago = reader.GetInt32("numeroPago"),
                                 IdContrato = reader.GetInt32("idContrato"),
                                 IdUsuario = reader.GetInt32("idUsuario"),
-                                usuario = new Usuario
+                                Usuario = new Usuario
                                 {
                                     Nombre = reader.GetString("nombreUsuario"),
                                     Apellido = reader.GetString("apellidoUsuario")
                                 },
-                                inquilino = new Inquilino{
-                                    Apellido = reader.GetString("apellido_inquilino")
-                                },
-                                propietario = new Propietario{
-                                    Apellido = reader.GetString("apellido_propietario")
+                                Contrato = new Contrato
+                                {
+                                    Inquilino = new Inquilino
+                                    {
+                                        Nombre = reader.GetString("nombreInquilino"),
+                                        Apellido = reader.GetString("apellidoInquilino"),
+                                        Dni = reader.GetString("dniInquilino"),
+                                        Telefono = reader.GetString("telefonoInquilino"),
+                                        Email = reader.GetString("emailInquilino")
+                                    },
+                                    Propietario = new Propietario
+                                    {
+                                        Nombre = reader.GetString("nombrePropietario"),
+                                        Apellido = reader.GetString("apellidoPropietario"),
+                                        Dni = reader.GetString("dniPropietario"),
+                                        Telefono = reader.GetString("telefonoPropietario"),
+                                        Email = reader.GetString("emailPropietario")
+                                    }
                                 },
                                 Fecha = reader.GetDateTime("fecha"),
                                 Importe = reader.GetDouble("importe"),
                                 Estado = reader.GetBoolean("estado"),
-                                Detalle = reader.GetString("detalle")
+                                Detalle = reader.IsDBNull(reader.GetOrdinal("detalle")) ? null : reader.GetString("detalle")
                             };
                             listaPagos.Add(pago);
                         }
@@ -65,6 +79,75 @@ namespace ABM_inmobiliaria.Models
                     }
                 }
                 return listaPagos;
+            }
+        }
+
+
+        public Pago GetPago(int id)
+        {
+            Pago pago = null;
+
+            using (var connection = new MySqlConnection(ConnectionString))
+            {
+                var sql = @"SELECT p.Id, p.numeroPago, p.idContrato, p.idUsuario, p.fecha, p.importe, p.estado, p.detalle,
+                           u.nombre AS nombreUsuario, u.apellido AS apellidoUsuario,
+                           i.nombre AS nombreInquilino, i.apellido AS apellidoInquilino, i.dni AS dniInquilino, i.telefono AS telefonoInquilino, i.email AS emailInquilino,
+                           pr.nombre AS nombrePropietario, pr.apellido AS apellidoPropietario, pr.dni AS dniPropietario, pr.telefono AS telefonoPropietario, pr.email AS emailPropietario
+                    FROM pago p  
+                    INNER JOIN usuario u ON p.idUsuario = u.id
+                    INNER JOIN contrato c ON p.idContrato = c.id
+                    INNER JOIN inquilino i ON c.idInquilino = i.id
+                    INNER JOIN propietario pr ON c.idPropietario = pr.id
+                    WHERE p.Id = @PagoId";
+
+                using (var command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@PagoId", id);
+                    connection.Open();
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            pago = new Pago
+                            {
+                                Id = reader.GetInt32("Id"),
+                                NumeroPago = reader.GetInt32("numeroPago"),
+                                IdContrato = reader.GetInt32("idContrato"),
+                                IdUsuario = reader.GetInt32("idUsuario"),
+                                Usuario = new Usuario
+                                {
+                                    Nombre = reader.GetString("nombreUsuario"),
+                                    Apellido = reader.GetString("apellidoUsuario")
+                                },
+                                Contrato = new Contrato
+                                {
+                                    Inquilino = new Inquilino
+                                    {
+                                        Nombre = reader.GetString("nombreInquilino"),
+                                        Apellido = reader.GetString("apellidoInquilino"),
+                                        Dni = reader.GetString("dniInquilino"),
+                                        Telefono = reader.GetString("telefonoInquilino"),
+                                        Email = reader.GetString("emailInquilino")
+                                    },
+                                    Propietario = new Propietario
+                                    {
+                                        Nombre = reader.GetString("nombrePropietario"),
+                                        Apellido = reader.GetString("apellidoPropietario"),
+                                        Dni = reader.GetString("dniPropietario"),
+                                        Telefono = reader.GetString("telefonoPropietario"),
+                                        Email = reader.GetString("emailPropietario")
+                                    }
+                                },
+                                Fecha = reader.GetDateTime("fecha"),
+                                Importe = reader.GetDouble("importe"),
+                                Estado = reader.GetBoolean("estado"),
+                                Detalle = reader.IsDBNull(reader.GetOrdinal("detalle")) ? null : reader.GetString("detalle")
+                            };
+                        }
+                        connection.Close();
+                    }
+                }
+                return pago;
             }
         }
 

@@ -93,7 +93,7 @@
                                 <select class="form-control" name="IdContrato">
                                     @foreach (var item in contratos)
                                     {
-                                        <option value="@item.Id">@(item.Id)</option>
+                                        <option value="@item.Id">@(item.Id) - @item.Propietario.Apellido - @item.Inquilino.Apellido</option>
                                     }
                                 </select>
                                 <span asp-validation-for="IdContrato" class="text-danger"></span>
