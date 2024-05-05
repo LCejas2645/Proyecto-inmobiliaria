@@ -17,18 +17,21 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
+        <nav
+            class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
             <div class="container-fluid">
-                
+
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item dropdown ms-4 me-3">
-                                <a class="nav-link dropdown-toggle navbar-brand" asp-area="" asp-controller="Usuario" asp-action="Perfil"
-                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle navbar-brand" asp-area="" asp-controller="Usuario"
+                                    asp-action="Perfil" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
 
-                                    @if (((ClaimsIdentity)User.Identity).FindFirst("AvatarUrl") != null && ((ClaimsIdentity)User.Identity).FindFirst("AvatarUrl").Value != "")
+                                    @if (((ClaimsIdentity)User.Identity).FindFirst("AvatarUrl") != null &&
+                                   ((ClaimsIdentity)User.Identity).FindFirst("AvatarUrl").Value != "")
                                     {
                                         var avatarUrl = ((ClaimsIdentity)User.Identity).FindFirst("AvatarUrl").Value;
                                         <img src="@avatarUrl" alt="Avatar del usuario" width="30" height="30"
@@ -42,7 +45,8 @@
                                     <span class="d-sm-inline text-dark font-weight-bold">@User.Identity.Name</span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" asp-area="" asp-controller="Usuario" asp-action="Perfil">Perfil</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Usuario"
+                                        asp-action="Perfil">Perfil</a>
                                     <a class="dropdown-item" asp-area="" asp-controller="Usuario"
                                         asp-action="CambiarPassword">Cambiar contraseña</a>
                                     <div class="dropdown-divider"></div>
@@ -63,16 +67,19 @@
                                 asp-action="Index">Inquilino</a>
                         </li>
                         <li class="nav-item nav-item dropdown">
-                            <a class="nav-link text-dark dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false" asp-area="">Inmueble</a>
-                                <ul class="dropdown-menu">
-                                      
-                                    <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Inmueble" asp-action="Index" style="font-size: small;">Lista de inmuebles</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Tipo" asp-action="Index" style="font-size: small;">Administrar tipo de inmuebles</a>
-                                    </li>
-                                </ul>
+                            <a class="nav-link text-dark dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" asp-area="">Inmueble</a>
+                            <ul class="dropdown-menu">
+
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Inmueble" asp-action="Index"
+                                        style="font-size: small;">Lista de inmuebles</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Tipo" asp-action="Index"
+                                        style="font-size: small;">Administrar tipo de inmuebles</a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Contrato"
@@ -80,29 +87,31 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pago"
-                                asp-action="Index">Pagos</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Pago" asp-action="Index">Pagos</a>
                         </li>
 
                         @if (User.IsInRole("Administrador"))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link text-dark dropdown-toggle" asp-area="" asp-controller="Usuario" asp-action="Index"
-                                    role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Gestionar usuarios
+                                <a class="nav-link text-dark dropdown-toggle" asp-area="" asp-controller="Usuario"
+                                    asp-action="Index" role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Administración
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" asp-area="" asp-controller="Usuario" asp-action="Index">Gestion
                                         de usuarios</a>
                                     <a class="dropdown-item" asp-area="" asp-controller="Usuario"
                                         asp-action="#">Reportes/detalles (No funciona)</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Auditoria"
+                                        asp-action="Index">Auditoria</a>
                                 </div>
                             </li>
                         }
 
-                         
 
-                       
+
+
 
                     </ul>
                 </div>

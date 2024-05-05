@@ -13,6 +13,10 @@ namespace ABM_inmobiliaria.Controllers
         RepositorioPago rp = new RepositorioPago();
         RepositorioContrato rc = new RepositorioContrato();
 
+        RepositorioAuditoria ra = new RepositorioAuditoria();
+
+        RepositorioUsuario ru = new RepositorioUsuario();
+
         public PagoController(ILogger<PagoController> logger)
         {
             _logger = logger;
@@ -39,6 +43,14 @@ namespace ABM_inmobiliaria.Controllers
             try
             {
                 rp.EliminarPago(id);
+                // Insertar entrada en la tabla de auditoría
+                var usuario = ru.GetUsuarioEmail(User.FindFirst(ClaimTypes.Email).Value); ///Obtengo el usuario que inicio sesion desde la claim 
+                var idUsuario = usuario.Id;
+                int idEntidad = id; // El ID de la entidad eliminada (en este caso, el contrato)
+                bool entidad = false; // El nombre de la entidad eliminada
+                DateTime fechaAccion = DateTime.Now; // La fecha y hora actual
+                ra.InsertarAuditoria(idUsuario, id, entidad, fechaAccion);
+                
                 TempData["Mensaje"] = $"Se eliminó correctamente el pago";
                 TempData["TipoMensaje"] = "success";
                 return RedirectToAction("Index");

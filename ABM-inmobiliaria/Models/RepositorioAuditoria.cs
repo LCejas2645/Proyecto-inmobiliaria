@@ -14,7 +14,7 @@ namespace ABM_inmobiliaria.Models{
             using (var connection = new MySqlConnection(ConnectionString))
             {
                 var sql = @"SELECT Id, idUsuario, idEntidad , entidad, fechaAccion
-                FROM auditoria";
+                            FROM auditoria";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -23,7 +23,6 @@ namespace ABM_inmobiliaria.Models{
                     {
                         while (reader.Read())
                         {
-
                             Auditoria auditoria = new Auditoria{
                                 Id = reader.GetInt32("Id"),
                                 IdUsuario = reader.GetInt32("idUsuario"),

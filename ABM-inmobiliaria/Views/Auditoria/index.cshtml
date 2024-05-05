@@ -4,7 +4,44 @@
     ViewData["Title"] = "Auditoria";
 }
 
-@foreach(var Auditoria in Model){
+<div class="container mt-5">
+    <h1 class="mb-4">Auditoria</h1>
+    <h5 class="mb-4">Registro de eliminacion de contratos y pagos</h5>
+
+    <table id="miTabla" class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Contrato/Pago</th>
+                <th>Identificacion</th>
+                <th>Fecha</th>
+                <th style=""></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Auditoria in Model)
+            {
+                <tr>
+                    @* <td>@Contrato.Id</td> *@
+                    <td>@Auditoria.Id</td>
+                    <td>@Auditoria.IdUsuario</td>
+                    <td>@(Auditoria.Entidad ? "Contrato" : "Pago")</td>
+                    <td>@Auditoria.IdEntidad</td>
+                    <td>@Auditoria.FechaAccion.ToShortDateString()</td>
+                    <td>
+                        <button class="btn btn-info btn-sm boton" style="width: 80px;" data-bs-toggle="modal"
+                            data-bs-target="#modalDetalles_@(Auditoria.Id)">
+                            Detalles
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@* @foreach(var Auditoria in Model){
     <p>@Auditoria.Id</p>
     <p>@Auditoria.IdUsuario</p>
     <p>@Auditoria.IdEntidad</p>
@@ -12,4 +49,4 @@
     <p>@Auditoria.FechaAccion</p>
     <hr>
     <hr>
-}
+} *@

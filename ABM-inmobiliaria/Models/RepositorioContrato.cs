@@ -29,7 +29,8 @@ namespace ABM_inmobiliaria.Models
                 FROM contrato c INNER JOIN inquilino i ON c.idInquilino = i.id
                                 INNER JOIN propietario p ON c.idPropietario = p.id
                                 INNER JOIN usuario u ON c.idUsuario = u.id
-                                INNER JOIN inmueble inm ON c.idInmueble = inm.id";
+                                INNER JOIN inmueble inm ON c.idInmueble = inm.id
+                WHERE c.vigente = true";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
@@ -204,11 +205,13 @@ namespace ABM_inmobiliaria.Models
         {
             using (var connection = new MySqlConnection(ConnectionString))
             {
-                var sql = @$"DELETE FROM contrato WHERE {nameof(Contrato.Id)} = @Id";
+                var sql = @$"UPDATE contrato SET vigente = @vigente
+                    WHERE id = @Id";
 
                 using (var command = new MySqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@Id", id);
+                    command.Parameters.AddWithValue("@vigente", false);
                     connection.Open();
                     command.ExecuteNonQuery();
                     connection.Close();
